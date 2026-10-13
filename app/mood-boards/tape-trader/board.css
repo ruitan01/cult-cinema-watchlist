@@ -1,0 +1,155 @@
+/* Tape Trader — board-scoped tokens, textures and reactions.
+   Everything is namespaced under .tt so the three boards never collide. */
+
+.tt {
+  --tt-paper: #edede8;
+  --tt-toner: #111111;
+  --tt-grey: #55554f;
+  --tt-pink: #ff2e88;
+  --tt-yellow: #f5ff3b;
+  --tt-blue: #1f3fbf;
+  --tt-red: #d7261e;
+  --tt-cyan: #00b3c7;
+  --tt-kraft: #c9a87a;
+
+  color-scheme: light;
+  color: var(--tt-toner);
+  font-family: var(--font-tt-type), "Courier New", monospace;
+  /* The desk under the homepage: a dark tiled background, as 90s pages had. */
+  background-color: #262522;
+  background-image:
+    radial-gradient(circle at 25% 25%, rgb(255 255 255 / 0.07) 1px, transparent 1.5px),
+    radial-gradient(circle at 75% 75%, rgb(255 46 136 / 0.12) 1px, transparent 1.5px);
+  background-size: 18px 18px;
+}
+
+html:has(.tt) {
+  background-color: #262522;
+  scroll-padding-top: 4.5rem;
+}
+
+.tt-anton {
+  font-family: var(--font-tt-display), Impact, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+.tt-vt {
+  font-family: var(--font-tt-screen), monospace;
+}
+
+.tt-marker {
+  font-family: var(--font-tt-hand), "Comic Sans MS", cursive;
+}
+
+.tt-web {
+  font-family: "Times New Roman", Times, serif;
+}
+
+/* Copier paper with toner specks and a darker edge where the lid didn't close. */
+.tt-paper {
+  background-color: var(--tt-paper);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -14 0 0 0 3.1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)' opacity='.55'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at center, transparent 60%, rgb(17 17 17 / 0.08));
+}
+
+.tt-hazard {
+  background-image: repeating-linear-gradient(
+    -45deg,
+    var(--tt-yellow) 0 14px,
+    var(--tt-toner) 14px 28px
+  );
+}
+
+.tt-scanlines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgb(0 0 0 / 0.28) 0 1px,
+    transparent 1px 3px
+  );
+}
+
+/* Label-maker tape: raised white letters on black. */
+.tt-dymo {
+  display: inline-block;
+  background: var(--tt-toner);
+  color: #f4f4f0;
+  padding: 0.15rem 0.55rem 0.1rem;
+  border-radius: 2px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  text-shadow: 0 1px 0 rgb(255 255 255 / 0.25);
+  box-shadow: inset 0 -2px 0 rgb(255 255 255 / 0.08), 0 1px 2px rgb(0 0 0 / 0.4);
+}
+
+/* Translucent tape with torn ends. */
+.tt-tape {
+  background: rgb(240 232 180 / 0.72);
+  clip-path: polygon(3% 0, 97% 4%, 100% 30%, 96% 60%, 100% 100%, 4% 96%, 0 70%, 3% 35%, 0 8%);
+  box-shadow: 0 1px 1px rgb(0 0 0 / 0.1);
+}
+
+.tt-shadow {
+  box-shadow: 2px 3px 0 rgb(17 17 17 / 0.85);
+}
+
+.tt-soft-shadow {
+  box-shadow: 0 2px 4px rgb(0 0 0 / 0.18), 0 10px 24px -10px rgb(0 0 0 / 0.45);
+}
+
+.tt-bevel {
+  background: #c0c0c0;
+  border: 3px outset #e8e8e8;
+  color: #111;
+}
+
+.tt-bevel-pressed {
+  background: #b2b2b2;
+  border: 3px inset #e8e8e8;
+  color: #111;
+}
+
+/* Small, snappy reactions: a clipping straightens and lifts when pointed at.
+   Off entirely for visitors who prefer reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .tt-clip {
+    transition: rotate 120ms ease-out, translate 120ms ease-out;
+  }
+
+  .tt-clip:hover {
+    rotate: 0deg;
+    translate: 0 -3px;
+  }
+
+  .tt-press {
+    transition: translate 80ms ease-out, box-shadow 80ms ease-out;
+  }
+}
+
+.tt-press:hover,
+.tt-press:focus-visible {
+  background-color: var(--tt-yellow);
+}
+
+.tt-press:active {
+  translate: 2px 2px;
+  box-shadow: none;
+}
+
+.tt :focus-visible {
+  outline: 3px dashed var(--tt-toner);
+  outline-offset: 3px;
+}
+
+.tt-vcr :focus-visible {
+  outline-color: var(--tt-yellow);
+}
+
+.tt-skip:focus {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 60;
+}

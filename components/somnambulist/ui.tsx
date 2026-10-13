@@ -1,5 +1,6 @@
-// Somnambulist components. Presentational only (no hooks), so the static state
-// rows (server) and the live demos (client) render the same markup.
+// Shared Somnambulist components, used by the design-system page and the
+// watchlist. Presentational only (no hooks), so server and client components
+// render the same markup. Styles: ./somnambulist.css (scope: .ds-sn).
 
 import type { ButtonHTMLAttributes, ReactNode, Ref } from "react";
 import type { Film, Mood } from "@/data/films";

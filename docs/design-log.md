@@ -419,3 +419,43 @@ Wellcome Collection copies of the Vesalius plates were deliberately not used, be
 
 **Final approval** given for Design System 03 after QA; committed. All three mood boards and all three design systems are now complete. Next: choose the final visual direction before building `/watchlist`.
 
+
+## 2026-10-13 · Stage 7 — Final direction chosen: Somnambulist
+
+**Decision (user):** the final Cult Cinema Watchlist website will use **Somnambulist (Design System 02)**: its dark, atmospheric, cinematic language, typography, restrained amber lighting, velvet-red accents and dreamlike hierarchy.
+
+**Rationale**
+
+- **Fit with the subject.** Lynch, Cronenberg, surrealism and body horror are best served by darkness, dream logic and "rooms" rather than an archive or a joke catalogue. Somnambulist feels like a cinema at night, which is the right frame for choosing what to watch.
+- **Fit with the audience.** Enthusiasts of unconventional cinema browse by feeling as much as by fact. The system's mood doors (Dread, Desire, Dream, Decay) offer a way in that ordinary film databases don't.
+- **The interactions already have a metaphor.** The lamp toggle makes "add to watchlist" a meaningful act (light a lamp for each film you want to see), and "Step inside" gives film details a natural home.
+- **It is proven accessible.** Its tokens are measured (body text 15.53:1, secondary text 7.25:1, amber focus 7:1 or more), axe passed at mobile and desktop, every state reads without glow or colour, and motion is gated by `prefers-reduced-motion`.
+- **Risks carried forward:**
+  - dark-on-dark readability over long sessions
+  - very long pages on mobile
+  - atmosphere getting in the way of a task-focused page
+
+  The watchlist plan addresses each: Ash is the dimmest text allowed, spacing is tighter than on the showcase, and filters and the list stay within reach.
+- **Velvet-red accents** use the system's Curtain red (`#8E1B1F`), which is decorative only (2.18:1 on Night): large fields such as curtains, bands and backdrops, never text or essential UI. Errors keep using Ember.
+
+**Status:** plan for `/watchlist` proposed; awaiting approval before any website code.
+
+## 2026-10-13 · Stage 8 — Shared components, final watchlist and homepage (deadline build)
+
+**Context:** with the submission deadline about 30 minutes away, the user asked for the remaining work (shared components, `/watchlist`, the homepage hub, metadata, commits and deployment) to be finished without further approval pauses.
+
+- **Shared Somnambulist kit (architectural decision):** `ui.tsx` and the theme CSS moved, with `git mv`, from the Design System 02 route into `components/somnambulist/` (`ui.tsx`, `somnambulist.css`). The final website no longer imports from a showcase's private folder. The Design System 02 page's anchor offset moved into its own `page.css`.
+  - **Regression check, made before the move:** every element's computed style (45 properties) and box at 1280 × 900 and 390 × 844, plus full-page screenshots. Both baseline runs were identical to each other. After the move: **0 of 1,392 elements differ** at either width, and the screenshots are pixel-identical. Design System 02 is unchanged.
+- **`/watchlist`, "The Night Programme":** Somnambulist entrance with Curtain Red curtains (decorative only).
+  - **Controls:** search with a clear button, four mood doors, theme chips with live counts, sort by year, title or running time, and a spoken result summary.
+  - **Films:** a staggered two-column grid of the shared film cards, each with a lamp toggle (`aria-pressed`) and "Step inside".
+  - **Film details:** a native modal `<dialog>` (focus trap, Esc, inert background). Focus returns to the card's button.
+  - **Your list:**
+    - a sticky desktop rail, or on phones a fixed bottom bar with an `aria-expanded` panel (Esc closes it and returns focus)
+    - shows a count and total running time, and an empty state
+    - each entry has a Seen toggle and a Remove button; focus moves to the next entry
+    - "Clear the list" asks for confirmation inline
+  - **No persistence:** React state only; the list is forgotten when you leave, as the page says. The page is padded at the bottom so the mobile bar never covers content.
+  - **Film data:** the existing 16-film dataset is reused unchanged. No new country or synopsis fields were added, to avoid unchecked facts under time pressure.
+- **Homepage hub (`/`):** replaces the starter. It links to the watchlist and to all three mood boards and design systems, and marks Somnambulist as chosen.
+- **Site metadata:** `app/layout.tsx` now has the title "Cult Cinema Watchlist" and a description.

@@ -1,0 +1,12 @@
+/* Design System 02 page only: anchor jumps clear the floor indicator
+   (a top bar on small screens, a side rail from 1024 px). */
+
+html:has(.ds-sn) {
+  scroll-padding-top: 4.5rem;
+}
+
+@media (min-width: 1024px) {
+  html:has(.ds-sn) {
+    scroll-padding-top: 2rem;
+  }
+}

@@ -1,7 +1,9 @@
-/* Somnambulist — design system.
-   Tokens and component classes, scoped under .ds-sn. Interactive classes pair
-   their real pseudo-class with an .is-* modifier for the static state rows.
-   Every control has a visible boundary or fill without hover, glow or motion. */
+/* Somnambulist — shared theme for the design-system page and the watchlist.
+   Tokens and component classes, scoped under .ds-sn (apply it to a page's
+   root). Interactive classes pair their real pseudo-class with an .is-*
+   modifier so documentation can show states statically. Every control has a
+   visible boundary or fill without hover, glow or motion. Page-specific
+   layout (such as anchor offsets) belongs in each page's own stylesheet. */
 
 .ds-sn {
   --sn-night: #0b0a0c;
@@ -32,15 +34,9 @@
   font-variant-numeric: tabular-nums;
 }
 
+/* Keep overscroll dark on any page that uses the theme. */
 html:has(.ds-sn) {
   background-color: #0b0a0c;
-  scroll-padding-top: 4.5rem;
-}
-
-@media (min-width: 1024px) {
-  html:has(.ds-sn) {
-    scroll-padding-top: 2rem;
-  }
 }
 
 .ds-sn .f-serif {

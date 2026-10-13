@@ -8,8 +8,9 @@ import { formatRatio, wcag } from "@/lib/contrast";
 import { a11yChecks } from "./a11y";
 import { FloorNav } from "./_components/floor-nav";
 import { ButtonsDemo, CorridorDemo, FilmCardDemo, MotionDemo, MotionSwitch, RetrievalDemo } from "./_components/demos";
-import { Button, Chip, Door, FilmCard, LampToggle, LoadingLamp, SeenMark, StepInside, Whisper, type ForcedState } from "./_components/ui";
-import "./system.css";
+import { Button, Chip, Door, FilmCard, LampToggle, LoadingLamp, SeenMark, StepInside, Whisper, type ForcedState } from "@/components/somnambulist/ui";
+import "@/components/somnambulist/somnambulist.css";
+import "./page.css";
 
 const serif = Instrument_Serif({ weight: "400", style: ["normal", "italic"], subsets: ["latin"], variable: "--font-sn-serif" });
 const sans = Instrument_Sans({ subsets: ["latin"], axes: ["wdth"], variable: "--font-sn-sans" });

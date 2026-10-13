@@ -1,0 +1,39 @@
+/* Watchlist page only. Shared theme: components/somnambulist/somnambulist.css */
+
+html:has(.wl) {
+  scroll-padding-top: 1.5rem;
+}
+
+/* Velvet-red: Curtain Red as decoration only, never text or controls. */
+.wl-rail {
+  border-top: 4px solid var(--sn-curtain) !important;
+}
+
+.wl-curtain {
+  background-image:
+    linear-gradient(to bottom, rgb(0 0 0 / 0.35), transparent 30%, transparent 70%, rgb(11 10 12)),
+    repeating-linear-gradient(90deg, #4a0c0f 0, #7a161a 9px, #8e1b1f 15px, #7a161a 21px, #4a0c0f 30px);
+}
+
+.wl-dialog {
+  border-top: 4px solid var(--sn-curtain);
+}
+
+.wl-dialog::backdrop {
+  background: rgb(20 4 6 / 0.82);
+}
+
+.sn-select {
+  min-height: 44px;
+  padding: 0 0.9rem;
+  border: 1.5px solid var(--sn-ash);
+  border-radius: 999px;
+  background: var(--sn-smoke);
+  color: var(--sn-lamp);
+  font: inherit;
+  font-size: 0.95rem;
+}
+
+.sn-select:hover {
+  border-color: var(--sn-lamp);
+}

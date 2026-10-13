@@ -2,7 +2,7 @@
 
 import { useEffect, useId, useRef, useState, useSyncExternalStore, type KeyboardEvent } from "react";
 import { films, themes, type Film, type Mood, type Theme } from "@/data/films";
-import { Button, Chip, Door, FilmCard, LampToggle, LoadingLamp, StepInside, Whisper, moods } from "./ui";
+import { Button, Chip, Door, FilmCard, LampToggle, LoadingLamp, StepInside, Whisper, moods } from "@/components/somnambulist/ui";
 
 function Status({ message, className = "" }: { message: string; className?: string }) {
   return (

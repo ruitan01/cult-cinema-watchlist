@@ -459,3 +459,9 @@ Wellcome Collection copies of the Vesalius plates were deliberately not used, be
   - **Film data:** the existing 16-film dataset is reused unchanged. No new country or synopsis fields were added, to avoid unchecked facts under time pressure.
 - **Homepage hub (`/`):** replaces the starter. It links to the watchlist and to all three mood boards and design systems, and marks Somnambulist as chosen.
 - **Site metadata:** `app/layout.tsx` now has the title "Cult Cinema Watchlist" and a description.
+
+**Deployment.** Vercel's local build failed on Windows (EPERM: it couldn't create a symlink in `.vercel/output`). Every route is static, so `next.config.ts` gained an opt-in `STATIC_EXPORT=1` mode: `output: "export"`, unoptimised images, and Cache Components and partial prefetching off (they can't be combined with export). The normal build is unchanged. `out/` was deployed as a static site with `cleanUrls`.
+
+- **Live checks:** all 9 routes returned 200, mood-board images load, and the homepage links all seven pages.
+- **Live watchlist at 390 and 1440 px:** search narrows to 9 films; a door to 2; the lamp sets `aria-pressed` and announces; the details dialog opens, and on close focus returns to "Step inside"; nothing is stored in localStorage or sessionStorage; no sideways scrolling; the bottom bar appears on mobile only.
+- **Not yet completed:** pushing to a public GitHub repository and claiming the temporary Vercel deployment both need the user's sign-in.

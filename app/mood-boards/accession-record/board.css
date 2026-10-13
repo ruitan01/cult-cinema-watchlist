@@ -1,0 +1,126 @@
+/* Accession Record — board-scoped tokens and textures.
+   Everything is namespaced under .ar so the three boards never collide. */
+
+.ar {
+  --ar-paper: #f3eee4;
+  --ar-paper-aged: #e9dfc9;
+  --ar-card: #e6dfd0;
+  --ar-ink: #1c1b19;
+  --ar-muted: #5e594f;
+  --ar-red: #a3271f;
+  --ar-blue: #22324a;
+  --ar-brass: #9c7a3c;
+  --ar-feint: #9fb3c8;
+  --ar-fox: #a07a48;
+
+  /* Caption colours; dark sections override these. */
+  --ar-cap: var(--ar-ink);
+  --ar-cap-muted: var(--ar-muted);
+  --ar-cap-accent: var(--ar-red);
+
+  color-scheme: light;
+  background-color: var(--ar-paper);
+  color: var(--ar-ink);
+  font-family: var(--font-ar-text), Georgia, serif;
+  font-optical-sizing: auto;
+}
+
+/* Keep anchor targets clear of the sticky drawer tabs. */
+html:has(.ar) {
+  scroll-padding-top: 4.5rem;
+}
+
+.ar-dark {
+  --ar-cap: #f3eee4;
+  --ar-cap-muted: #cfc6b5;
+  --ar-cap-accent: #e8a49c;
+  background-color: var(--ar-blue);
+  color: #f3eee4;
+}
+
+.ar-display {
+  font-family: var(--font-ar-display), Georgia, serif;
+  font-weight: 400;
+}
+
+.ar-mono {
+  font-family: var(--font-ar-mono), ui-monospace, monospace;
+}
+
+.ar-smallcaps {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+}
+
+.ar-oldstyle {
+  font-variant-numeric: oldstyle-nums proportional-nums;
+}
+
+/* Paper fibre: ink-coloured fractal noise at very low alpha. */
+.ar-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='220' height='220'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .11 0 0 0 0 .1 0 0 0 0 .09 0 0 0 .16 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+.ar-grain-zoom {
+  background-size: 660px 660px;
+}
+
+/* Index card: red header rule over blue feint lines. */
+.ar-ruled {
+  background-color: #f7f3ea;
+  background-image:
+    linear-gradient(var(--ar-red), var(--ar-red)),
+    repeating-linear-gradient(
+      to bottom,
+      transparent 0 calc(1.75rem - 1px),
+      var(--ar-feint) calc(1.75rem - 1px) 1.75rem
+    );
+  background-size:
+    100% 1px,
+    100% calc(100% - 3.5rem);
+  background-position:
+    0 2.75rem,
+    0 3.5rem;
+  background-repeat: no-repeat;
+}
+
+/* Ticket perforation along the left edge. */
+.ar-perforated {
+  mask-image: radial-gradient(circle at 0 50%, transparent 5px, #000 5.5px);
+  mask-size: 100% 16px;
+  mask-repeat: repeat-y;
+}
+
+/* Torn right edge for the admission stub. */
+.ar-torn {
+  clip-path: polygon(
+    0 0, 96% 0, 99% 8%, 96% 16%, 100% 25%, 97% 33%, 99% 42%, 96% 50%,
+    100% 58%, 97% 67%, 99% 75%, 96% 83%, 100% 92%, 97% 100%, 0 100%
+  );
+}
+
+.ar-tin {
+  background: radial-gradient(circle at 35% 30%, #d9d6cf 0%, #a9a59c 45%, #77736b 100%);
+}
+
+.ar-shadow {
+  box-shadow:
+    0 1px 1px rgb(28 27 25 / 0.08),
+    0 6px 18px -6px rgb(28 27 25 / 0.28);
+}
+
+.ar-skip:focus {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 50;
+}
+
+.ar :focus-visible {
+  outline: 2px solid var(--ar-red);
+  outline-offset: 3px;
+}
+
+.ar-dark :focus-visible {
+  outline-color: var(--ar-cap-accent);
+}

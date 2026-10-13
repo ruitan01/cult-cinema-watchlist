@@ -1,3 +1,4 @@
+import Image from "next/image";
 import type { ReactNode } from "react";
 import type { Artifact } from "@/data/mood-boards/types";
 import type { Fix, Surface } from "./clipping";
@@ -134,20 +135,20 @@ const ransomStyles = [
 export function RansomWord({ text, size = "text-4xl sm:text-5xl" }: { text: string; size?: string }) {
   let k = 0;
   return (
-    <span role="img" aria-label={text} className={`inline-flex flex-wrap items-center gap-x-1 gap-y-2 ${size}`}>
-      {text.split("").map((ch, i) =>
-        ch === " " ? (
-          <span key={i} aria-hidden="true" className="w-3" />
-        ) : (
-          <span
-            key={i}
-            aria-hidden="true"
-            className={`inline-block leading-none shadow-[1px_1px_0_rgb(17_17_17/0.35)] ${ransomStyles[k++ % ransomStyles.length]}`}
-          >
-            {ch}
-          </span>
-        ),
-      )}
+    <span role="img" aria-label={text} className={`inline-flex flex-wrap items-center gap-x-4 gap-y-2 ${size}`}>
+      {text.split(" ").map((word, w) => (
+        // Letters of one word never wrap apart.
+        <span key={w} aria-hidden="true" className="inline-flex items-center gap-x-1 whitespace-nowrap">
+          {word.split("").map((ch, i) => (
+            <span
+              key={i}
+              className={`inline-block leading-none shadow-[1px_1px_0_rgb(17_17_17/0.35)] ${ransomStyles[k++ % ransomStyles.length]}`}
+            >
+              {ch}
+            </span>
+          ))}
+        </span>
+      ))}
     </span>
   );
 }
@@ -356,6 +357,326 @@ function FoldsAndCoffee() {
   );
 }
 
+/* B4. Contraband --------------------------------------------------------- */
+
+const spines = [
+  { title: "VIDEODROME", label: "bg-white", font: "tt-marker text-(--tt-red)", body: "bg-[#161616]" },
+  { title: "TETSUO", label: "bg-(--tt-yellow)", font: "font-bold tracking-widest", body: "bg-[#222]" },
+  { title: "ERASERHEAD", label: "bg-white", font: "tracking-wider", body: "bg-[#161616]" },
+  { title: "SCANNERS", label: "bg-(--tt-toner)", font: "font-bold tracking-[0.2em] text-white", body: "bg-[#1d1d1d]" },
+  { title: "THE BROOD", label: "bg-(--tt-pink)", font: "tt-marker", body: "bg-[#181818]" },
+  { title: "DEAD RINGERS", label: "bg-white", font: "tt-vt text-lg tracking-wider", body: "bg-[#202020]" },
+  { title: "NAKED LUNCH", label: "bg-(--tt-cyan)", font: "font-bold", body: "bg-[#161616]" },
+];
+
+function TheShelf() {
+  return (
+    <div className="border-b-8 border-[#5b4632] pt-2">
+      <ul className="flex items-end gap-1 overflow-hidden">
+        {spines.map((s, i) => (
+          <li
+            key={s.title}
+            className={`flex h-56 w-11 shrink-0 items-center justify-center rounded-t-[2px] sm:w-12 ${s.body} ${i === 3 ? "-rotate-3" : ""}`}
+          >
+            <span className={`px-1 py-2 text-sm leading-none whitespace-nowrap [writing-mode:vertical-rl] ${s.label} ${s.font}`}>
+              {s.title}
+            </span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
+function HandLabelledTape() {
+  return (
+    <div className="mx-auto max-w-sm rounded-md bg-[#141414] p-4 shadow-[3px_4px_0_rgb(0_0_0/0.35)]">
+      <div className="-rotate-1 bg-white px-3 py-2">
+        <p className="tt-marker text-xl leading-tight text-(--tt-blue)">NAKED LUNCH + trailers</p>
+        <p className="mt-1 flex justify-between border-t border-(--tt-blue)/40 pt-1 text-xs">
+          <span>SP · 2nd gen</span>
+          <span className="tt-marker text-(--tt-red)">DON&apos;T TAPE OVER!</span>
+        </p>
+      </div>
+      <div aria-hidden="true" className="mt-4 flex items-center justify-center gap-10">
+        {[0, 1].map((i) => (
+          <span key={i} className="grid size-14 place-items-center rounded-full border-4 border-[#3a3a3a] bg-[#0d0d0d]">
+            <span className="size-5 rounded-full border-2 border-dashed border-[#9a9a9a]" />
+          </span>
+        ))}
+      </div>
+      <div aria-hidden="true" className="mx-auto mt-3 h-2 w-2/3 rounded-sm bg-[#2a2a2a]" />
+    </div>
+  );
+}
+
+function OrderLine({ label, value }: { label: string; value?: string }) {
+  return (
+    <p className="flex items-baseline gap-2 text-sm">
+      <span className="shrink-0 font-bold">{label}</span>
+      <span className="flex-1 border-b border-(--tt-toner) px-1">
+        {value ? <span className="tt-marker text-(--tt-blue)">{value}</span> : " "}
+      </span>
+    </p>
+  );
+}
+
+function OrderForm() {
+  return (
+    <div className="border-2 border-dashed border-(--tt-toner) bg-white p-4">
+      <p className="text-xs">✂ - - - - - - cut here - - - - - -</p>
+      <p className="tt-anton mt-1 text-2xl">ORDER FORM</p>
+      <div className="mt-3 space-y-2.5">
+        <OrderLine label="NAME" />
+        <OrderLine label="ADDRESS" />
+        <OrderLine label="TITLES" value="Tetsuo, The Brood" />
+      </div>
+      <p className="mt-3 flex flex-wrap gap-x-4 text-sm">
+        <span>[ ] CASH</span>
+        <span>[ ] MONEY ORDER</span>
+        <span>
+          [<span className="tt-marker text-(--tt-red)">X</span>] TRADE
+        </span>
+      </p>
+      <p className="mt-2 text-xs font-bold">NO CHECKS. NO REFUNDS. NO QUESTIONS.</p>
+    </div>
+  );
+}
+
+function Starburst({ children, className }: { children: ReactNode; className: string }) {
+  return (
+    <div className={`relative grid size-24 place-items-center ${className}`}>
+      <svg aria-hidden="true" viewBox="0 0 100 100" className="absolute inset-0">
+        <polygon
+          points="50,2 60,30 90,18 72,45 98,58 68,64 76,94 50,74 24,94 32,64 2,58 28,45 10,18 40,30"
+          fill="var(--tt-yellow)"
+          stroke="#111"
+          strokeWidth="2"
+        />
+      </svg>
+      <span className="tt-anton relative text-xl">{children}</span>
+    </div>
+  );
+}
+
+function StickerSheet() {
+  return (
+    <div className="flex flex-wrap items-center gap-3 rounded-sm bg-[#f7f7f2] p-3 shadow-[inset_0_0_0_2px_rgb(17_17_17/0.08)]">
+      <Starburst className="-rotate-6">RARE!</Starburst>
+      <span className="tt-anton rotate-2 bg-(--tt-red) px-2 py-1 text-lg tracking-wider text-white">EX-RENTAL</span>
+      <span className="tt-anton grid size-16 -rotate-3 place-items-center rounded-full bg-(--tt-toner) text-lg text-(--tt-paper)">
+        UNCUT
+      </span>
+      <span className="rotate-1 bg-(--tt-pink) px-2 py-1 text-sm font-bold">2ND GEN</span>
+      <span className="tt-vt -rotate-2 bg-(--tt-cyan) px-2 text-xl">NTSC</span>
+      <span className="rounded-full border-2 border-(--tt-blue) px-3 py-1 text-xs font-bold text-(--tt-blue)">
+        BE KIND · REWIND
+      </span>
+    </div>
+  );
+}
+
+function MembershipCard() {
+  return (
+    <div className="mx-auto aspect-[1.586] w-full max-w-72 overflow-hidden rounded-xl bg-(--tt-blue) text-white shadow-[2px_3px_0_rgb(0_0_0/0.4)]">
+      <div className="flex items-center justify-between bg-(--tt-yellow) px-3 py-1.5 text-(--tt-toner)">
+        <span className="tt-anton text-lg tracking-wide">NIGHT OWL VIDEO</span>
+        <span className="text-xs font-bold">MEMBER</span>
+      </div>
+      <div className="px-3 pt-2 text-xs leading-relaxed">
+        <p>
+          No. <span className="tt-vt text-base">004471</span>
+        </p>
+        <p>Late fees $1/day. Rewind or pay $1.</p>
+      </div>
+      <div className="mx-3 mt-2 h-6 rounded-sm bg-white px-2 pt-0.5">
+        <span className="tt-marker text-sm text-(--tt-toner)">J. Doe</span>
+      </div>
+    </div>
+  );
+}
+
+function Envelope() {
+  return (
+    <div
+      role="img"
+      aria-label="A brown paper envelope with a cancelled stamp, a round postmark and a handwritten address to a P.O. box"
+      className="relative aspect-[16/10] bg-(--tt-kraft) shadow-[2px_3px_0_rgb(0_0_0/0.3)]"
+    >
+      <div className="absolute top-3 right-3 h-16 w-14 border-2 border-dotted border-white bg-white p-1 shadow-[0_0_0_1px_rgb(0_0_0/0.15)]">
+        <div className="grid h-full place-items-center bg-(--tt-pink)">
+          <svg aria-hidden="true" viewBox="0 0 30 20" className="w-8">
+            <rect x="1" y="1" width="28" height="18" rx="2" fill="none" stroke="#111" strokeWidth="2" />
+            <circle cx="10" cy="10" r="3.5" fill="none" stroke="#111" strokeWidth="2" />
+            <circle cx="20" cy="10" r="3.5" fill="none" stroke="#111" strokeWidth="2" />
+          </svg>
+        </div>
+      </div>
+      <svg aria-hidden="true" viewBox="0 0 160 60" className="absolute top-7 right-20 w-36 opacity-75">
+        <circle cx="30" cy="30" r="24" fill="none" stroke="#1d1d1d" strokeWidth="2" />
+        <text x="30" y="27" textAnchor="middle" fontSize="7" fill="#1d1d1d" fontFamily="monospace">
+          OCT 14
+        </text>
+        <text x="30" y="37" textAnchor="middle" fontSize="7" fill="#1d1d1d" fontFamily="monospace">
+          1993
+        </text>
+        {[18, 26, 34, 42].map((y) => (
+          <path key={y} d={`M58 ${y} q10 -6 20 0 t20 0 t20 0 t20 0 t20 0`} fill="none" stroke="#1d1d1d" strokeWidth="1.6" />
+        ))}
+      </svg>
+      <div className="tt-marker absolute bottom-[14%] left-[28%] text-lg leading-snug sm:text-xl">
+        <p>TAPE TRADER</p>
+        <p>P.O. BOX 1983</p>
+        <p>SOMEWHERE, U.S.A.</p>
+      </div>
+    </div>
+  );
+}
+
+/* B5. Homepage ----------------------------------------------------------- */
+
+function BevelButtons() {
+  return (
+    <div className="tt-web grid gap-4 bg-[#c0c0c0] p-4 sm:grid-cols-2">
+      <div>
+        <p className="mb-2 text-sm">Resting</p>
+        <div className="flex flex-wrap gap-2">
+          {["Enter", "Guestbook", "Trade list"].map((b) => (
+            <span key={b} className="tt-bevel px-3 py-1 text-sm">
+              {b}
+            </span>
+          ))}
+        </div>
+      </div>
+      <div>
+        <p className="mb-2 text-sm">Pressed</p>
+        <div className="flex flex-wrap gap-2">
+          {["Enter", "Guestbook", "Trade list"].map((b) => (
+            <span key={b} className="tt-bevel-pressed px-3 pt-[0.3rem] pb-1 pl-[0.8rem] text-sm">
+              {b}
+            </span>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function UnderConstruction() {
+  return (
+    <div className="space-y-4">
+      <div className="tt-hazard p-2">
+        <p className="tt-anton bg-(--tt-yellow) py-2 text-center text-3xl tracking-wider sm:text-4xl">UNDER CONSTRUCTION</p>
+      </div>
+      <div className="tt-web flex flex-wrap items-center justify-center gap-3 text-sm">
+        <span>Hits since 10/31/97:</span>
+        <span className="tt-vt flex gap-0.5 text-2xl">
+          {"004471".split("").map((d, i) => (
+            <span key={i} className="bg-(--tt-toner) px-1.5 text-[#7cfc00]">
+              {d}
+            </span>
+          ))}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function Guestbook() {
+  return (
+    <div className="tt-web border-2 border-[#808080] bg-[#d4d0c8] p-1 text-[0.95rem]">
+      <table className="w-full border-collapse bg-white">
+        <tbody>
+          <tr className="border-b border-[#808080]">
+            <th scope="row" className="w-24 bg-[#e8e8e8] px-2 py-1 text-left align-top font-bold">
+              Name
+            </th>
+            <td className="px-2 py-1">vhs_ghoul</td>
+          </tr>
+          <tr className="border-b border-[#808080]">
+            <th scope="row" className="bg-[#e8e8e8] px-2 py-1 text-left align-top font-bold">
+              From
+            </th>
+            <td className="px-2 py-1">Dayton, OH</td>
+          </tr>
+          <tr className="border-b border-[#808080]">
+            <th scope="row" className="bg-[#e8e8e8] px-2 py-1 text-left align-top font-bold">
+              Comments
+            </th>
+            <td className="px-2 py-1">
+              Got my TETSUO in 4 days!!! picture is rough but the subs are readable. A+++ trader, will trade again
+            </td>
+          </tr>
+          <tr>
+            <th scope="row" className="bg-[#e8e8e8] px-2 py-1 text-left align-top font-bold">
+              Posted
+            </th>
+            <td className="px-2 py-1">11/02/97 23:14</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+function Webring() {
+  return (
+    <div className="tt-web border-4 border-double border-(--tt-toner) bg-white p-4 text-center">
+      <p className="tt-anton text-2xl tracking-wide">THE CULT VHS RING</p>
+      <p className="mt-1 text-sm">This site is a member of the ring. 47 sites and counting.</p>
+      <p className="mt-3 text-base">
+        [ <span className="text-(--tt-blue) underline">&lt;&lt; Prev</span> |{" "}
+        <span className="text-(--tt-blue) underline">Random</span> |{" "}
+        <span className="text-(--tt-blue) underline">List sites</span> |{" "}
+        <span className="text-(--tt-blue) underline">Next &gt;&gt;</span> ]
+      </p>
+      <p className="mt-2 text-xs">Want to join? Email the ringmaster.</p>
+    </div>
+  );
+}
+
+function PullATape() {
+  return (
+    <div className="flex flex-col items-start gap-4 sm:flex-row sm:items-end">
+      <div className="flex items-end gap-1 border-b-8 border-[#5b4632]">
+        {["TETSUO", "SCANNERS", "ERASERHEAD", "THE BROOD", "CRASH"].map((t, i) => (
+          <div
+            key={t}
+            className={`flex h-48 w-10 items-center justify-center bg-[#1a1a1a] ${
+              i === 2 ? "-translate-y-6 shadow-[0_6px_0_rgb(0_0_0/0.25)] ring-2 ring-(--tt-yellow)" : ""
+            }`}
+          >
+            <span className="bg-white px-1 py-1.5 text-xs font-bold whitespace-nowrap [writing-mode:vertical-rl]">{t}</span>
+          </div>
+        ))}
+      </div>
+      <div className="w-full max-w-56 rotate-1 border-2 border-(--tt-toner) bg-white p-3 text-sm">
+        <p className="tt-anton text-2xl leading-none">ERASERHEAD</p>
+        <p className="mt-1">Lynch · 1977 · 89 min</p>
+        <p>1st gen · SP · $20</p>
+        <p className="mt-2 inline-block bg-(--tt-yellow) px-1 font-bold">+ ADD TO MY LIST</p>
+      </div>
+    </div>
+  );
+}
+
+/* B6. Found Footage ------------------------------------------------------ */
+
+function FoundImage({ artifact, sizes, copy = true }: { artifact: Artifact; sizes: string; copy?: boolean }) {
+  const image = artifact.image;
+  if (!image) return null;
+  return (
+    <Image
+      src={image.src}
+      width={image.width}
+      height={image.height}
+      alt={image.alt}
+      sizes={sizes}
+      className={`block h-auto w-full ${copy ? "contrast-[1.35] grayscale" : ""}`}
+    />
+  );
+}
+
 /* Registry --------------------------------------------------------------- */
 
 export type ClipSpec = {
@@ -385,4 +706,41 @@ export const clips: Record<string, ClipSpec> = {
   "TT-13": { className: "md:col-span-6 lg:col-span-4", tilt: "rotate-1", fix: "tape", render: () => <TrackingError /> },
   "TT-14": { className: "md:col-span-3 lg:col-span-4 lg:col-start-2", surface: "bare", tilt: "-rotate-2", render: () => <TapeAndStaples /> },
   "TT-15": { className: "md:col-span-3 lg:col-span-5 lg:col-start-7", fix: "corners", tilt: "rotate-1", render: () => <FoldsAndCoffee /> },
+  "TT-16": { className: "md:col-span-6 lg:col-span-7", surface: "bare", render: () => <TheShelf /> },
+  "TT-17": { className: "md:col-span-3 lg:col-span-5 lg:pt-6", surface: "bare", tilt: "rotate-2", render: () => <HandLabelledTape /> },
+  "TT-18": { className: "md:col-span-3 lg:col-span-5", surface: "bare", tilt: "-rotate-1", render: () => <OrderForm /> },
+  "TT-19": { className: "md:col-span-3 lg:col-span-4 lg:pt-8", surface: "bare", tilt: "rotate-1", render: () => <StickerSheet /> },
+  "TT-20": { className: "md:col-span-3 lg:col-span-3", surface: "bare", tilt: "-rotate-2", render: () => <MembershipCard /> },
+  "TT-21": { className: "md:col-span-6 lg:col-span-5 lg:col-start-4", surface: "bare", tilt: "rotate-1", render: () => <Envelope /> },
+
+  "TT-22": { className: "md:col-span-3 lg:col-span-5", surface: "bare", render: () => <BevelButtons /> },
+  "TT-23": { className: "md:col-span-3 lg:col-span-7", surface: "bare", tilt: "-rotate-1", render: () => <UnderConstruction /> },
+  "TT-24": { className: "md:col-span-3 lg:col-span-5", surface: "bare", tilt: "rotate-1", render: () => <Guestbook /> },
+  "TT-25": { className: "md:col-span-3 lg:col-span-6 lg:col-start-7 lg:pt-6", surface: "bare", render: () => <Webring /> },
+  "TT-26": { className: "md:col-span-6 lg:col-span-8 lg:col-start-3", fix: "tape", render: () => <PullATape /> },
+
+  "TT-27": {
+    className: "md:col-span-2 lg:col-span-3",
+    fix: "tape",
+    tilt: "-rotate-2",
+    render: (a) => <FoundImage artifact={a} sizes="(min-width: 1024px) 22vw, (min-width: 768px) 33vw, 100vw" />,
+  },
+  "TT-28": {
+    className: "md:col-span-4 lg:col-span-4",
+    fix: "corners",
+    tilt: "rotate-1",
+    render: (a) => <FoundImage artifact={a} copy={false} sizes="(min-width: 1024px) 30vw, (min-width: 768px) 66vw, 100vw" />,
+  },
+  "TT-29": {
+    className: "md:col-span-3 lg:col-span-5 lg:self-center",
+    fix: "staple",
+    tilt: "-rotate-1",
+    render: (a) => <FoundImage artifact={a} sizes="(min-width: 1024px) 36vw, (min-width: 768px) 50vw, 100vw" />,
+  },
+  "TT-30": {
+    className: "md:col-span-3 lg:col-span-8 lg:col-start-4",
+    fix: "tape",
+    tilt: "rotate-1",
+    render: (a) => <FoundImage artifact={a} sizes="(min-width: 1024px) 60vw, (min-width: 768px) 50vw, 100vw" />,
+  },
 };

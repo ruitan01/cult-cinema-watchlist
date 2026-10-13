@@ -91,10 +91,6 @@ html:has(.tt) {
   box-shadow: 0 1px 1px rgb(0 0 0 / 0.1);
 }
 
-.tt-shadow {
-  box-shadow: 2px 3px 0 rgb(17 17 17 / 0.85);
-}
-
 .tt-soft-shadow {
   box-shadow: 0 2px 4px rgb(0 0 0 / 0.18), 0 10px 24px -10px rgb(0 0 0 / 0.45);
 }
@@ -122,20 +118,13 @@ html:has(.tt) {
     rotate: 0deg;
     translate: 0 -3px;
   }
-
-  .tt-press {
-    transition: translate 80ms ease-out, box-shadow 80ms ease-out;
-  }
 }
 
-.tt-press:hover,
-.tt-press:focus-visible {
+/* Links react like a highlighter swipe on hover and focus. */
+.tt a:hover,
+.tt a:focus-visible {
   background-color: var(--tt-yellow);
-}
-
-.tt-press:active {
-  translate: 2px 2px;
-  box-shadow: none;
+  color: var(--tt-toner);
 }
 
 .tt :focus-visible {

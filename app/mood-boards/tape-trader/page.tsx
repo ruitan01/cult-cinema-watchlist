@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import Link from "next/link";
 import { Anton, Courier_Prime, Permanent_Marker, VT323 } from "next/font/google";
 import { tapeTrader as board, tapeTraderFonts } from "@/data/mood-boards/tape-trader";
@@ -15,6 +16,27 @@ export const metadata: Metadata = {
   title: "Mood Board 03: Tape Trader · Cult Cinema Watchlist",
   description:
     "A handmade visual direction for the Cult Cinema Watchlist: a 1993 bootleg VHS trading list photocopied onto an early personal homepage.",
+};
+
+// Loose scraps stuck around each track heading: they break the grid without
+// ever covering an artifact or its label, and are left out on small screens.
+const strays: Record<string, ReactNode> = {
+  toner: <p className="tt-marker -rotate-6 text-3xl text-(--tt-red)">the good stuff ↓↓</p>,
+  ransom: (
+    <p className="tt-anton grid size-24 rotate-12 place-items-center rounded-full bg-(--tt-red) text-2xl text-white shadow-[2px_3px_0_#111]">
+      NEW!
+    </p>
+  ),
+  xerox: (
+    <p className="tt-tape tt-marker rotate-3 px-6 py-2 text-xl">do not copy (ha!)</p>
+  ),
+  contraband: (
+    <p className="tt-anton -rotate-12 border-4 border-(--tt-red) px-3 py-1 text-3xl tracking-wider text-(--tt-red)">
+      CONFISCATED?
+    </p>
+  ),
+  homepage: <p className="tt-marker rotate-6 text-2xl text-(--tt-blue)">sign my guestbook!!</p>,
+  "found-footage": <p className="tt-marker -rotate-3 text-3xl text-(--tt-red)">gross!! ↓</p>,
 };
 
 function SideBanner({ side }: { side: "A" | "B" }) {
@@ -125,7 +147,10 @@ export default function TapeTraderBoard() {
                           {section.title}
                         </span>
                       </h2>
-                      <p className="w-full max-w-xl text-[0.95rem]">{section.blurb}</p>
+                      <p className="w-full max-w-xl text-[0.95rem] lg:w-auto lg:max-w-md lg:flex-1">{section.blurb}</p>
+                      <div aria-hidden="true" className="hidden shrink-0 self-start lg:ml-auto lg:block">
+                        {strays[section.id]}
+                      </div>
                     </header>
 
                     <div className="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-6 lg:grid-cols-12">
@@ -205,16 +230,21 @@ export default function TapeTraderBoard() {
           </main>
 
           <footer className="tt-web border-t-2 border-(--tt-toner) bg-white px-4 py-4 text-center text-sm">
-            <p>
-              [ <span className="text-(--tt-blue) underline">&lt;&lt; prev</span> | The Cult VHS Ring |{" "}
-              <span className="text-(--tt-blue) underline">random</span> |{" "}
-              <span className="text-(--tt-blue) underline">next &gt;&gt;</span> ]
-            </p>
-            <p className="mt-2">
+            <nav aria-label="Mood boards webring">
+              [{" "}
+              <Link href="/mood-boards/somnambulist" className="text-(--tt-blue) underline hover:bg-(--tt-yellow)">
+                &lt;&lt; prev board
+              </Link>{" "}
+              | The Cult VHS Ring |{" "}
               <Link href="/" className="text-(--tt-blue) underline hover:bg-(--tt-yellow)">
-                ← Back to the index
-              </Link>
-            </p>
+                index
+              </Link>{" "}
+              |{" "}
+              <Link href="/mood-boards/accession-record" className="text-(--tt-blue) underline hover:bg-(--tt-yellow)">
+                next board &gt;&gt;
+              </Link>{" "}
+              ]
+            </nav>
           </footer>
         </div>
       </div>

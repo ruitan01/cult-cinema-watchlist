@@ -702,9 +702,9 @@ export const clips: Record<string, ClipSpec> = {
   "TT-10": { className: "md:col-span-3 lg:col-span-3", tilt: "rotate-1", fix: "tape", render: () => <MarkerNotes /> },
 
   "TT-11": { className: "md:col-span-3 lg:col-span-5", tilt: "-rotate-1", fix: "staple", render: () => <PhotocopyCrunch /> },
-  "TT-12": { className: "md:col-span-3 lg:col-span-3 lg:pt-10", surface: "bare", render: () => <Halftone /> },
+  "TT-12": { className: "md:col-span-3 lg:col-span-3 lg:pt-6", surface: "bare", render: () => <Halftone /> },
   "TT-13": { className: "md:col-span-6 lg:col-span-4", tilt: "rotate-1", fix: "tape", render: () => <TrackingError /> },
-  "TT-14": { className: "md:col-span-3 lg:col-span-4 lg:col-start-2", surface: "bare", tilt: "-rotate-2", render: () => <TapeAndStaples /> },
+  "TT-14": { className: "md:col-span-3 lg:col-span-4 lg:col-start-2 lg:self-center", surface: "bare", tilt: "-rotate-2", render: () => <TapeAndStaples /> },
   "TT-15": { className: "md:col-span-3 lg:col-span-5 lg:col-start-7", fix: "corners", tilt: "rotate-1", render: () => <FoldsAndCoffee /> },
   "TT-16": { className: "md:col-span-6 lg:col-span-7", surface: "bare", render: () => <TheShelf /> },
   "TT-17": { className: "md:col-span-3 lg:col-span-5 lg:pt-6", surface: "bare", tilt: "rotate-2", render: () => <HandLabelledTape /> },

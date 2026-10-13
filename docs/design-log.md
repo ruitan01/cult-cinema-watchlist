@@ -204,3 +204,21 @@ Wellcome Collection copies of the Vesalius plates were deliberately not used, be
 - **Keyboard:** the order is the skip link, the six track links, back to the index, then the liner-notes links. Focus shows a dashed outline (yellow on the dark VCR bar).
 - **Structure:** one h1 (the ransom title has an accessible name), a heading per track, two labelled navigation regions, alt text on all four images, labels on every graphic, and no duplicate ids.
 - **Testing note:** Edge began opening a hidden sync dialog that blocked screenshots taken through the DevTools protocol. Page screenshots were therefore taken with Edge's own headless screenshot mode, with a full-paint flag, and a 390 px iframe for mobile. Metrics, keyboard and axe checks still ran through DevTools, which works without screenshots. An apparently blank TT-30 turned out to be a capture-timing artifact: the image decodes correctly, and a full-paint capture shows it.
+
+## 2026-10-13 · Stage 3 — Mood Board 03 approved, final refinements
+
+**Feedback:** the Tape Trader direction is approved. Two small refinements were requested: slightly less vertical whitespace between artifact groups, keeping the messy photocopied-catalogue feel; and a sticky navigation that works at 390 px without clipping or sideways overflow.
+
+**Revisions**
+
+- **Spacing:** track padding, heading margin and row gaps are reduced. The halftone TV's offset is smaller. The WANTED notice (TT-14) is centred against the tall folded list (TT-15), so no empty band is left under it. Pages are about 2% shorter on desktop (9,218 → 8,999 px) and 3% shorter on mobile.
+- **Track bar:** the link list was a flex item without a minimum width, so at 390 px it overflowed the bar and was clipped by the board's overflow guard. On phones the six track buttons now wrap onto two rows (76 px bar). Every button stays fully on screen with no hidden sideways scroller, and the anchor offset is 6rem on phones (4.5rem from 640 px up) to match.
+
+**Verification**
+
+- **390 px:** page width equals viewport width. All six track buttons sit within 12–345 px across two rows. Jumping to `#homepage` puts its heading at 120 px, below the bar's 76 px bottom edge.
+- **1280 px:** the bar is a single 47 px row; no overflow.
+- **Artifacts:** 30 records (TT-01 to TT-30) and 30 rendered figures, all unique. 26 are original works, each with a recorded medium. The four public-domain images each record creator, licence, rights statement, check date, changes and alt text; the files exist in `public/`, and each Commons file page returns HTTP 200. The liner notes list all 30 artifacts plus the four typeface licences.
+- Lint and production build pass.
+
+**Approved:** Mood Board 03, Tape Trader. All three mood boards are now complete. Next: plan the three design-system pages.

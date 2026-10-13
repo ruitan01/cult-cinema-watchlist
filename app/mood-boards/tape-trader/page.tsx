@@ -66,12 +66,12 @@ export default function TapeTraderBoard() {
           <span aria-hidden="true" className="tt-vt hidden shrink-0 text-xl text-(--tt-cyan) sm:inline">
             ◀◀ ▶ ▶▶
           </span>
-          <ol className="flex gap-1.5 overflow-x-auto">
+          <ol className="flex min-w-0 flex-1 flex-wrap gap-1.5 sm:flex-nowrap">
             {board.sections.map((s) => (
               <li key={s.id} className="shrink-0">
                 <a
                   href={`#${s.id}`}
-                  className="tt-vt block rounded-sm border border-[#3a3a37] bg-[#232321] px-2 py-0.5 text-lg leading-tight whitespace-nowrap text-(--tt-paper) hover:border-(--tt-yellow) hover:text-(--tt-yellow)"
+                  className="tt-vt block rounded-sm border border-[#3a3a37] bg-[#232321] px-2 py-0.5 text-base leading-tight whitespace-nowrap sm:text-lg text-(--tt-paper) hover:border-(--tt-yellow) hover:text-(--tt-yellow)"
                 >
                   {s.numeral} {s.title.toUpperCase()}
                 </a>
@@ -138,8 +138,8 @@ export default function TapeTraderBoard() {
               return (
                 <div key={section.id}>
                   {side !== prevSide && <SideBanner side={side} />}
-                  <section id={section.id} aria-labelledby={`${section.id}-title`} className="px-4 pt-8 pb-14 sm:px-8">
-                    <header className="mb-10 flex flex-wrap items-end gap-x-5 gap-y-2">
+                  <section id={section.id} aria-labelledby={`${section.id}-title`} className="px-4 pt-6 pb-10 sm:px-8">
+                    <header className="mb-8 flex flex-wrap items-end gap-x-5 gap-y-2">
                       <p className="tt-vt bg-(--tt-toner) px-2 text-4xl leading-tight text-(--tt-cyan)">{section.numeral}</p>
                       <h2 id={`${section.id}-title`} className="tt-anton text-5xl leading-none uppercase sm:text-6xl">
                         <span className="sr-only">Track {section.numeral}: </span>
@@ -153,7 +153,7 @@ export default function TapeTraderBoard() {
                       </div>
                     </header>
 
-                    <div className="grid grid-cols-1 gap-x-8 gap-y-12 md:grid-cols-6 lg:grid-cols-12">
+                    <div className="grid grid-cols-1 gap-x-8 gap-y-9 md:grid-cols-6 lg:grid-cols-12 lg:gap-y-10">
                       {artifacts.map((artifact) => {
                         const spec = clips[artifact.id];
                         return (

@@ -25,7 +25,14 @@
 
 html:has(.tt) {
   background-color: #262522;
-  scroll-padding-top: 4.5rem;
+  /* The track bar wraps to two rows on phones. */
+  scroll-padding-top: 6rem;
+}
+
+@media (min-width: 640px) {
+  html:has(.tt) {
+    scroll-padding-top: 4.5rem;
+  }
 }
 
 .tt-anton {

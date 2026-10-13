@@ -76,3 +76,13 @@ A running record of the process, design decisions, feedback and revisions for As
 - Section padding, header margin and grid row gaps tightened.
 - AR-08 and AR-10 are now vertically centred against the tall title page instead of pushed down, which removes the empty band under them.
 - Anchor jumps use `scroll-padding-top` on the page, so section headings and individual artifacts land below the sticky drawer tabs.
+
+## 2026-10-13 · Stage 1 — Mood Board 01 approved
+
+- **Approved:** the Accession Record mood board as it stands, with 30 artifacts: 25 original CSS/SVG/type works and 5 verified public-domain images. The final images AR-26 to AR-30 replaced the placeholders from the first pass; no fallback artifacts were needed.
+- **Final source check before committing:**
+  - each file-page URL resolves
+  - each recorded licence template matches the file's Commons page
+  - image dimensions in the data match the files in `public/`
+- **One correction:** AR-26's holding note now says the specimen scan comes from Chambers's *Cyclopaedia*, via the University of Wisconsin Digital Collections.
+- **Next:** Mood Board 02, Somnambulist. The plan is to be proposed and approved before implementation.

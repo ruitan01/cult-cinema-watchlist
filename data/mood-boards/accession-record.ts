@@ -295,7 +295,8 @@ export const accessionRecord: MoodBoard = {
         work: "A Specimen by William Caslon, Letter-Founder",
         date: "c. 1734",
         url: "https://commons.wikimedia.org/wiki/File:A_Specimen_by_William_Caslon.jpg",
-        heldBy: "Scan from the University of Wisconsin Digital Collections, via Wikimedia Commons",
+        heldBy:
+          "Reproduced in Chambers's Cyclopaedia; scan from the University of Wisconsin Digital Collections, via Wikimedia Commons",
         licence: "Public domain",
         rightsStatement:
           "Tagged PD-old-100 and PD-US-expired on Commons: the author died more than 100 years ago and the work was published before 1931.",

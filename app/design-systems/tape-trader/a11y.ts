@@ -1,0 +1,16 @@
+// Results of the accessibility checks run against this page (2026-10-13). Updated by hand
+// after each test pass; docs/design-log.md records the method.
+
+import type { A11yCheck } from "../accession-record/a11y";
+
+export const a11yChecks: A11yCheck[] = [
+  { check: "Automated audit", method: "axe-core 4.10, WCAG 2.1 A/AA, 2.2 AA and best practice, at 390 px and 1440 px", result: "0 violations at 390 px and 1440 px (49–50 rules passed). Contrast over the copier-paper speckle, which axe cannot sample, uses the measured token pairs on track A2." },
+  { check: "Text contrast", method: "Ratios computed from tokens (Track 2)", result: "All text pairs pass AA; toner on paper and on yellow pass AAA. Gore red as text (4.27:1) and pink as a lone line (2.98:1) fail, so the system forbids both: Blood is used for error text, and pink always sits behind black text inside a toner border." },
+  { check: "Keyboard", method: "Real key presses: Tab, Enter, Space, typing, Esc", result: "Pass. Enter and Space work on buttons, strips, stickers and MY LIST; typing filters with an announced count; Tab reaches [X] Clear; Esc closes a review and returns focus; REWIND returns focus to the search field; the SOLD OUT button is skipped because it is genuinely disabled." },
+  { check: "Focus visible", method: "Computed outline on focused controls, on paper and on the dark bar", result: "Pass. A 3 px dashed toner cut line on paper and a 3 px dashed yellow line on the dark VCR bar." },
+  { check: "Names, roles, states", method: "aria-pressed, aria-expanded, aria-current, legends and live regions inspected", result: "Pass. MY LIST, strips and stickers expose aria-pressed and include the film or count; reviews use aria-expanded and aria-controls; the VCR bar marks the track in view with aria-current=\"location\"; filters are grouped in fieldsets with legends; changes are announced via role=\"status\", BLANK TAPE via role=\"alert\". The disabled button's accessible name is its label; the SOLD OUT tag is decoration on top of the native disabled state." },
+  { check: "Target size", method: "Interactive elements measured against 24 × 24 px (WCAG 2.2 AA)", result: "Pass. Every live control is at least 24 × 24 px; buttons, MY LIST, the search field and bevel buttons are 44 px or more." },
+  { check: "Mess is decoration only", method: "Tilts, tape and texture checked against text inside controls", result: "Pass. Tilts sit on containers, stickers and tape; labels inside controls are upright. The paper speckle is sparse and every state is also shown by a shape or text cue (▶, ✓, dashed, struck through, SOLD OUT, ON MY LIST)." },
+  { check: "Reflow", method: "390 px, 640 px (200% zoom) and 1440 px", result: "Pass. No sideways page scroll at 390, 640, 768, 1024, 1280 or 1440 px. The VCR bar is a single 52 px row at every width (track numbers only below 1280 px), and anchor jumps clear it. The shelf grows with the page; no nested scroll area." },
+  { check: "Motion", method: "OS prefers-reduced-motion emulated", result: "Pass. With motion allowed, press and hover snaps run at 80–120 ms and the tape counter ticks once a second (text only, no flashing). With the OS set to reduce motion, transitions are 0 s and the counter stays at 0:00:00." },
+];

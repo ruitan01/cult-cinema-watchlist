@@ -1,0 +1,593 @@
+/* Tape Trader — design system.
+   Tokens and component classes, scoped under .ds-tt. Interactive classes pair
+   their real pseudo-class with an .is-* modifier for the static state rows.
+   The mess is decoration; text inside controls is never tilted. */
+
+.ds-tt {
+  --tt-paper: #edede8;
+  --tt-white: #ffffff;
+  --tt-toner: #111111;
+  --tt-grey: #55554f;
+  --tt-blue: #1f3fbf;
+  --tt-visited: #551a8b;
+  --tt-yellow: #f5ff3b;
+  --tt-pink: #ff2e88;
+  --tt-cyan: #00b3c7;
+  --tt-red: #d7261e;
+  --tt-blood: #b3170f;
+  --tt-desk: #262522;
+  --tt-bevel: #c0c0c0;
+  --tt-shadow: 3px 3px 0 var(--tt-toner);
+  --tt-shadow-lg: 6px 6px 0 var(--tt-toner);
+
+  color-scheme: light;
+  color: var(--tt-toner);
+  font-family: var(--font-tt-type), "Courier New", monospace;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  background-color: var(--tt-desk);
+  background-image:
+    radial-gradient(circle at 25% 25%, rgb(255 255 255 / 0.07) 1px, transparent 1.5px),
+    radial-gradient(circle at 75% 75%, rgb(255 46 136 / 0.12) 1px, transparent 1.5px);
+  background-size: 18px 18px;
+}
+
+html:has(.ds-tt) {
+  background-color: #262522;
+  /* The track bar is always a single row (about 52 px). */
+  scroll-padding-top: 4.5rem;
+}
+
+.ds-tt .f-anton {
+  font-family: var(--font-tt-display), Impact, sans-serif;
+  font-weight: 400;
+  letter-spacing: 0.01em;
+}
+
+.ds-tt .f-vt {
+  font-family: var(--font-tt-screen), monospace;
+}
+
+.ds-tt .f-marker {
+  font-family: var(--font-tt-hand), "Comic Sans MS", cursive;
+}
+
+.ds-tt .f-web {
+  font-family: "Times New Roman", Times, serif;
+}
+
+/* Copier paper: sparse toner specks and a darker lid edge. */
+.ds-tt .paper {
+  background-color: var(--tt-paper);
+  background-image:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='s'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='2' seed='3'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 -14 0 0 0 3.1'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23s)' opacity='.5'/%3E%3C/svg%3E"),
+    radial-gradient(ellipse at center, transparent 60%, rgb(17 17 17 / 0.07));
+}
+
+.ds-tt .hazard {
+  background-image: repeating-linear-gradient(-45deg, var(--tt-yellow) 0 14px, var(--tt-toner) 14px 28px);
+}
+
+.ds-tt .scanlines {
+  background-image: repeating-linear-gradient(to bottom, rgb(0 0 0 / 0.28) 0 1px, transparent 1px 3px);
+}
+
+.ds-tt .tape {
+  background: rgb(240 232 180 / 0.75);
+  clip-path: polygon(3% 0, 97% 4%, 100% 30%, 96% 60%, 100% 100%, 4% 96%, 0 70%, 3% 35%, 0 8%);
+}
+
+.ds-tt .dymo {
+  display: inline-block;
+  background: var(--tt-toner);
+  color: #f4f4f0;
+  padding: 0.1rem 0.5rem;
+  border-radius: 2px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Focus: a thick dashed cut line, yellow on the dark bar. */
+.ds-tt :focus-visible,
+.ds-tt .is-focus {
+  outline: 3px dashed var(--tt-toner);
+  outline-offset: 3px;
+}
+
+.ds-tt .on-dark :focus-visible,
+.ds-tt .on-dark .is-focus {
+  outline-color: var(--tt-yellow);
+}
+
+.ds-tt-skip:focus {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 60;
+}
+
+/* Snaps, only when the visitor has not asked for reduced motion. */
+@media (prefers-reduced-motion: no-preference) {
+  .ds-tt .tt-move {
+    transition:
+      translate 80ms ease-out,
+      box-shadow 120ms ease-out,
+      background-color 120ms ease-out;
+  }
+}
+
+/* Button ------------------------------------------------------------------ */
+
+.tt-btn {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0 1.1rem;
+  border: 2px solid var(--tt-toner);
+  font-family: var(--font-tt-display), Impact, sans-serif;
+  font-size: 1.15rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--tt-toner);
+  box-shadow: var(--tt-shadow);
+  cursor: pointer;
+}
+
+.tt-btn--primary {
+  background: var(--tt-yellow);
+}
+
+.tt-btn--secondary {
+  background: var(--tt-white);
+}
+
+.tt-btn--primary:hover,
+.tt-btn--primary.is-hover,
+.tt-btn--secondary:hover,
+.tt-btn--secondary.is-hover {
+  box-shadow: 5px 5px 0 var(--tt-toner), -3px 0 0 var(--tt-pink);
+}
+
+.tt-btn--secondary:hover,
+.tt-btn--secondary.is-hover {
+  background: var(--tt-yellow);
+}
+
+/* Pressed: the sticker is pushed into the page. */
+.tt-btn:active,
+.tt-btn.is-active {
+  translate: 3px 3px;
+  box-shadow: none;
+}
+
+.tt-btn--quiet {
+  min-height: 44px;
+  border: 0;
+  background: none;
+  box-shadow: none;
+  padding: 0 0.25rem;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1.05rem;
+  letter-spacing: 0;
+  text-transform: none;
+  color: var(--tt-blue);
+  text-decoration: underline;
+}
+
+.tt-btn--quiet:hover,
+.tt-btn--quiet.is-hover {
+  background: var(--tt-yellow);
+  color: var(--tt-toner);
+  box-shadow: none;
+}
+
+.tt-btn--quiet:active,
+.tt-btn--quiet.is-active {
+  translate: 1px 1px;
+}
+
+/* Disabled: dashed, struck through, and tagged SOLD OUT. */
+.tt-btn:disabled,
+.tt-btn.is-disabled {
+  background: var(--tt-paper);
+  border-style: dashed;
+  color: var(--tt-grey);
+  text-decoration: line-through;
+  text-decoration-thickness: 2px;
+  box-shadow: none;
+  translate: none;
+  cursor: not-allowed;
+}
+
+.tt-btn:disabled::after,
+.tt-btn.is-disabled::after {
+  content: "SOLD OUT";
+  position: absolute;
+  top: -0.7rem;
+  right: -0.6rem;
+  padding: 0 0.35rem;
+  background: var(--tt-red);
+  color: var(--tt-white);
+  font-family: var(--font-tt-display), Impact, sans-serif;
+  font-size: 0.8rem;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  rotate: 6deg;
+}
+
+/* Link -------------------------------------------------------------------- */
+
+.tt-link {
+  font-family: "Times New Roman", Times, serif;
+  color: var(--tt-blue);
+  text-decoration: underline;
+}
+
+.tt-link:hover,
+.tt-link.is-hover {
+  background: var(--tt-yellow);
+  color: var(--tt-toner);
+}
+
+.tt-link:visited,
+.tt-link.is-visited {
+  color: var(--tt-visited);
+}
+
+.tt-link[aria-current],
+.tt-link.is-current {
+  color: var(--tt-toner);
+  font-weight: 700;
+  text-decoration: none;
+}
+
+.tt-link[aria-current]::before,
+.tt-link.is-current::before {
+  content: "▶ ";
+}
+
+/* VCR bar track button ---------------------------------------------------- */
+
+.tt-track {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 34px;
+  padding: 0 0.55rem;
+  border: 1px solid #4a4a46;
+  border-radius: 2px;
+  background: #1b1b1a;
+  color: var(--tt-paper);
+  font-family: var(--font-tt-screen), monospace;
+  font-size: 1.2rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.tt-track:hover,
+.tt-track.is-hover {
+  border-color: var(--tt-yellow);
+  color: var(--tt-yellow);
+}
+
+.tt-track[aria-current],
+.tt-track.is-current {
+  background: var(--tt-paper);
+  border-color: var(--tt-paper);
+  color: var(--tt-toner);
+}
+
+.tt-track[aria-current]::before,
+.tt-track.is-current::before {
+  content: "▶";
+}
+
+/* Single choice: label-maker strips --------------------------------------- */
+
+.tt-strip {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  min-height: 40px;
+  padding: 0 0.8rem;
+  border: 2px solid var(--tt-toner);
+  border-radius: 2px;
+  background: var(--tt-toner);
+  color: #f4f4f0;
+  font-family: var(--font-tt-type), monospace;
+  font-weight: 700;
+  font-size: 0.875rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.tt-strip:hover,
+.tt-strip.is-hover {
+  box-shadow: var(--tt-shadow);
+  background: #2c2c2a;
+}
+
+.tt-strip[aria-pressed="true"],
+.tt-strip.is-on {
+  background: var(--tt-yellow);
+  color: var(--tt-toner);
+  box-shadow: var(--tt-shadow);
+}
+
+.tt-strip[aria-pressed="true"]::before,
+.tt-strip.is-on::before {
+  content: "▶";
+}
+
+.tt-strip:disabled,
+.tt-strip.is-disabled {
+  background: var(--tt-paper);
+  border-style: dashed;
+  color: var(--tt-grey);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* Multi choice: genre-dot stickers ---------------------------------------- */
+
+.tt-dot {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 40px;
+  padding: 0 0.9rem 0 0.4rem;
+  border: 2px solid var(--tt-toner);
+  border-radius: 999px;
+  background: var(--tt-white);
+  color: var(--tt-toner);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+}
+
+.tt-dot .sticker {
+  display: grid;
+  place-items: center;
+  width: 1.6rem;
+  height: 1.6rem;
+  border: 2px solid var(--tt-toner);
+  border-radius: 999px;
+  font-family: var(--font-tt-hand), cursive;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.tt-dot:hover,
+.tt-dot.is-hover {
+  box-shadow: var(--tt-shadow);
+}
+
+.tt-dot[aria-pressed="true"],
+.tt-dot.is-on {
+  background: var(--tt-pink);
+  border-width: 3px;
+  box-shadow: var(--tt-shadow);
+}
+
+.tt-dot:disabled,
+.tt-dot.is-disabled {
+  border-style: dashed;
+  color: var(--tt-grey);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* Search ------------------------------------------------------------------ */
+
+.tt-input {
+  width: 100%;
+  min-height: 48px;
+  padding: 0 0.75rem;
+  border: 2px solid var(--tt-toner);
+  background: var(--tt-white);
+  color: var(--tt-toner);
+  font-family: var(--font-tt-type), monospace;
+  font-size: 1.05rem;
+  box-shadow: inset 3px 3px 0 rgb(17 17 17 / 0.12);
+}
+
+.tt-input::placeholder {
+  color: var(--tt-grey);
+}
+
+.tt-input:hover,
+.tt-input.is-hover {
+  background: #fffff0;
+}
+
+.tt-input:focus-visible,
+.tt-input.is-focus {
+  background: #fdffc9;
+}
+
+.tt-bevel {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 0.9rem;
+  border: 3px outset #e8e8e8;
+  background: var(--tt-bevel);
+  color: var(--tt-toner);
+  font-family: "Times New Roman", Times, serif;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.tt-bevel:active {
+  border-style: inset;
+  padding-top: 2px;
+}
+
+.tt-bevel:disabled {
+  border: 3px solid #a8a8a8;
+  color: #5a5a5a;
+  text-decoration: line-through;
+  cursor: not-allowed;
+}
+
+/* MY LIST toggle ---------------------------------------------------------- */
+
+.tt-mylist {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  min-height: 44px;
+  padding: 0 0.9rem 0 0.6rem;
+  border: 2px solid var(--tt-toner);
+  background: var(--tt-white);
+  color: var(--tt-toner);
+  font-family: var(--font-tt-display), Impact, sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.05em;
+  box-shadow: var(--tt-shadow);
+  cursor: pointer;
+}
+
+.tt-mylist:hover,
+.tt-mylist.is-hover {
+  background: var(--tt-yellow);
+}
+
+.tt-mylist:active,
+.tt-mylist.is-active {
+  translate: 3px 3px;
+  box-shadow: none;
+}
+
+.tt-mylist[aria-pressed="true"],
+.tt-mylist.is-on {
+  background: var(--tt-pink);
+}
+
+/* Seen sticker ------------------------------------------------------------ */
+
+.tt-seen {
+  display: inline-grid;
+  place-items: center;
+  width: 4.25rem;
+  height: 4.25rem;
+  rotate: -8deg;
+  font-family: var(--font-tt-display), Impact, sans-serif;
+  font-size: 0.95rem;
+  line-height: 0.95;
+  text-align: center;
+  color: var(--tt-toner);
+  background: var(--tt-yellow);
+  clip-path: polygon(50% 0, 61% 18%, 82% 8%, 80% 30%, 100% 40%, 84% 55%, 96% 76%, 73% 76%, 68% 100%, 50% 86%, 32% 100%, 27% 76%, 4% 76%, 16% 55%, 0 40%, 20% 30%, 18% 8%, 39% 18%);
+}
+
+/* Film card and catalogue row --------------------------------------------- */
+
+.tt-card {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2.75rem 1fr;
+  border: 2px solid var(--tt-toner);
+  background: var(--tt-white);
+  box-shadow: var(--tt-shadow-lg);
+}
+
+.tt-card .spine {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--tt-toner);
+  color: var(--tt-white);
+  font-family: var(--font-tt-display), Impact, sans-serif;
+  font-size: 1rem;
+  letter-spacing: 0.08em;
+  writing-mode: vertical-rl;
+  rotate: 180deg;
+  padding: 0.75rem 0;
+}
+
+.tt-card:hover,
+.tt-card.is-hover {
+  translate: -2px -2px;
+  box-shadow: 8px 8px 0 var(--tt-toner);
+}
+
+.tt-card:focus-within,
+.tt-card.is-focus-within {
+  box-shadow: 8px 8px 0 var(--tt-toner), -4px 0 0 var(--tt-pink);
+}
+
+.tt-row {
+  display: grid;
+  gap: 0.5rem;
+  padding: 0.75rem 0;
+  border-bottom: 2px dashed rgb(17 17 17 / 0.45);
+}
+
+@media (min-width: 640px) {
+  .tt-row {
+    grid-template-columns: 1fr auto;
+    align-items: center;
+  }
+}
+
+/* Disclosure: [+] READ THE REVIEW ------------------------------------------ */
+
+.tt-review {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  min-height: 44px;
+  padding: 0 0.25rem;
+  border: 0;
+  background: none;
+  color: var(--tt-blue);
+  font-family: var(--font-tt-type), monospace;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.tt-review:hover,
+.tt-review.is-hover {
+  background: var(--tt-yellow);
+  color: var(--tt-toner);
+}
+
+.tt-review[aria-expanded="true"],
+.tt-review.is-open {
+  color: var(--tt-toner);
+}
+
+/* Feedback notes ---------------------------------------------------------- */
+
+.tt-note {
+  position: relative;
+  border: 2px solid var(--tt-toner);
+  padding: 0.9rem 1rem;
+  background: var(--tt-yellow);
+  box-shadow: var(--tt-shadow);
+}
+
+.tt-note--error {
+  background: var(--tt-white);
+}
+
+.tt-screen {
+  position: relative;
+  border: 10px solid #1b1b1a;
+  border-radius: 16px;
+  background: var(--tt-blue);
+  color: var(--tt-white);
+  font-family: var(--font-tt-screen), monospace;
+  overflow: hidden;
+}

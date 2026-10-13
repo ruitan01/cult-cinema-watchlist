@@ -314,3 +314,108 @@ Wellcome Collection copies of the Vesalius plates were deliberately not used, be
 - **Floor indicator follows the scroll.** A small client component (`_components/floor-nav.tsx`) marks the floor whose section has passed a line 35% down the viewport with `aria-current="location"`. The last floor is marked at the very bottom of the page, and nothing is marked at the entrance. It uses a passive scroll listener throttled to one update per animation frame, never moves focus, and uses the same markup for the vertical desktop indicator and the mobile top bar. The current floor gets a filled amber ring (a shape cue, not just colour).
   - Verified at 1280 and 390 px by scrolling to each of the seven floors: the matching link was marked every time; none at the top; Access at the bottom.
   - axe-core still reports 0 violations at both widths, with a floor marked.
+
+## 2026-10-13 · Stage 6 — Design System 03: Tape Trader (first pass, awaiting review)
+
+**Approved plan and decisions**
+
+- Same seven sections and component coverage, in a third, loud language: photocopied paper, fluorescent highlighters, hard shadows, stickers, tape and early-web details.
+- **Disabled buttons:** a red "SOLD OUT" tag plus a struck-through label.
+- **Loading counter:** may tick once a second, with no flashing, and stays static under reduced motion.
+- **Layout:** must work at 390 and 1440 px with no horizontal overflow.
+
+**Decisions**
+
+- **Route and files:** `/design-systems/tape-trader`; tokens in `data/design-systems/tape-trader.ts`, reusing the shared token types.
+- **Page as a tape:**
+  - the seven sections are tracks: Side A (A1 Manifesto, A2 Toner, A3 Ransom, A4 Cut & paste) and Side B (B5 Contraband kit, B6 Error codes, B7 Fine print)
+  - cassette "SIDE A / SIDE B" banners
+  - a homepage frame with hazard tape, a visitor counter and a footer webring linking the other two design systems
+  - components presented on taped "sheets"
+- **Colour:** copier paper, toner, photocopy grey (6.38:1), tape-label blue links (7.09:1), visited purple, and yellow, pink and cyan highlighters (only behind toner text: 17.30, 5.39 and 7.43:1).
+  - Calculation ruled out two uses, both shown on the page as forbidden pairs:
+    - Gore red as text on paper measured 4.27:1, so a darker **Blood** (`#B3170F`, 5.86:1) was added for error text.
+    - Pink as a lone line measured 2.98:1, so pink always sits inside a toner border.
+- **Type:** Anton for headlines, Courier Prime for body text, VT323 for screens and counters (at least 20 px), Permanent Marker for rare annotations (at least 20 px, never carrying meaning alone), and system Times for early-web links.
+- **Pressing:** controls lose their hard shadow and move 3 px into the page (80 ms); hover grows the shadow and adds a pink edge (120 ms). Transforms only, and only on user action.
+- **Components:**
+  - Buttons: yellow and white stickers, plus an early-web quiet link.
+  - Disabled: dashed border, struck-through label, "SOLD OUT" tag, and the native `disabled` attribute.
+  - Links: Times, underlined, visited purple, current ▶.
+  - VCR track bar: tracks the section in view with `aria-current="location"`.
+  - Mood filter: label-maker strips, single choice (yellow and ▶).
+  - Theme filter: genre-dot stickers, multiple choice (✓, thick ring, pink).
+  - Search: typewriter box with `[X] Clear` and `◀◀ Rewind` bevel buttons.
+  - Watchlist: "MY LIST" toggle (empty box, or marker ✓ and pink; `aria-pressed`; the label never changes).
+  - "SEEN IT!" starburst.
+  - Film card: a taped clipping with a VHS spine.
+  - Review: a `[+]/[–]` disclosure; Esc closes it and returns focus.
+  - Feedback: taped notes, plus "TRACKING…" and "NO SIGNAL" screens.
+- **Working demos:** buttons, a film card, **the shelf** (search, mood strips, theme stickers, catalogue rows, MY LIST, reviews, a VT323 list counter and REWIND, which returns focus to the search field; natural page scrolling), and retrieval (TRACKING… with a once-a-second counter, then the record or the BLANK TAPE alert).
+
+**Revisions during checks**
+
+- The track bar wrapped to two rows (92 px) at 640 px. Track names now show only from 1280 px up; below that the bar shows track numbers, with names kept for screen readers. It is now a single 52 px row at every width, with one anchor offset.
+- axe flagged the state captions under the dark VCR-bar specimen (#55554F on #151514, 2.43:1). Captions on dark now use copier paper.
+- React's refs lint rule rejected reading the review hook's ref through an object; the hook is now destructured.
+- The very-long-title test card showed "GEN SP" with no grade, because the test copy isn't in the film list. The grade lookup now matches by id and falls back to 2ND. Confirmed on the dev server.
+
+**Verification**
+
+- **Automated:** axe-core 4.10 (WCAG 2.1 A/AA, 2.2 AA and best practice), 0 violations at 390 and 1440 px.
+- **Layout:** no sideways page scroll at 390, 640, 768, 1024, 1280 and 1440 px. The track bar is 52 px at every width, and anchor jumps clear it. Every live control is at least 24 px.
+- **Track bar:** marks A1, A2, B5 and B7 correctly as each section is scrolled into view, at 390, 640 and 1440 px.
+- **Keyboard, with real key events:**
+  - Enter and Space on buttons; the SOLD OUT button is skipped because it is disabled.
+  - Space on MY LIST, with "GOT IT! VIDEODROME IS ON YOUR LIST." announced.
+  - Enter and Esc on the review, with focus returned.
+  - Search announces its count; Tab reaches [X] Clear; a mood strip and a theme sticker filter correctly; the list counter reads 001.
+  - The empty state, then REWIND, returns focus to the search field.
+  - The shelf list's overflow is `visible`.
+  - BLANK TAPE appears as an alert.
+  - Focus is a dashed 3 px outline: toner on paper, yellow on the dark bar.
+- **Motion:** the counter reads 0:00:02 after 2.2 s with motion allowed; with the OS set to reduce motion it stays at 0:00:00 and transitions are 0 s.
+- **Screenshots** reviewed at 1440 × 900 (entrance, Toner, Contraband kit, Error codes) and 390 × 844.
+
+**Desktop visual review approved.** The aesthetic, typography, components and visual hierarchy were approved, and the visual direction is to be kept as it is. One refinement was requested before final QA.
+
+**Refinements**
+
+- **B6 "PLAY THE TAPE / PLAY A BLANK" demo:** the result area had a fixed `min-h-56` (224 px) while it mostly showed one line, "Insert a tape." The fixed height is removed, so the area fits its content: 27 px at rest, 186 px with a record at 1440 px (254 px at 390 px). The whole live box is now 179 px at rest. Behaviour is unchanged.
+- **Readability, found during QA:** the label-maker captions (`.dymo`) were the smallest text on the page at 11.2 px. They are raised to 12 px, the same as the other small labels; no other visual change.
+
+**Final QA** (production build, Edge via DevTools)
+
+- **Layout:**
+
+  | Width | Sideways overflow | Clipped text | Targets under 24 px | Track bar |
+  |---|---|---|---|---|
+  | 390 px | none | none | 0 | one 52 px row |
+  | 768 px | none | none | 0 | one 52 px row |
+  | 1440 px | none | none | 0 | one 52 px row |
+
+  At every width the track bar marked A1, A3, B5, B6 and B7 correctly as each section scrolled into view, and every heading cleared the bar. The smallest text is now 12 px (labels, swatch hex codes, contrast-pair notes). Screenshots of B6 at 1440 and 390 px were reviewed.
+- **Interactions, with real key events at both 1440 and 390 px:**
+  - Buttons: Enter and Space; the SOLD OUT button is skipped by Tab.
+  - MY LIST: Space toggles `aria-pressed` and announces "GOT IT! VIDEODROME IS ON YOUR LIST."; the card shows ON MY LIST.
+  - Review: Enter opens it, Esc closes it, and focus returns.
+  - Search: "lynch" gives "4 TAPES ON THE SHELF."; Tab reaches [X] Clear.
+  - Mood strip (Dread) gives 2; theme sticker (body horror) gives 1; the row toggle sets the counter to 001.
+  - "zzzz" gives "NOTHING ON THIS SHELF."; REWIND returns focus to the search field with 16 tapes shown.
+  - The shelf list scrolls with the page (overflow `visible`).
+  - **B6:**
+    - **Play a blank:** the counter reads 0:00:02 after 2.2 s, then the BLANK TAPE alert appears.
+    - **Play the tape:** `aria-busy` is set and both buttons are disabled while it loads; then the Tetsuo record appears and "Tetsuo: The Iron Man is playing." is announced.
+  - VCR navigation: Enter on A3 moves to `#ransom` with its heading at 104 px, below the bar, and A3 becomes current.
+- **Focus:** every Tab-focused control shows a 3 px dashed outline, toner on paper and yellow on the dark VCR bar. (A control focused by script, not keyboard, shows no ring, as browsers intend; this is a test artifact, not a defect.)
+- **Reduced motion (OS setting emulated):** transitions 0 s (0.08/0.12 s otherwise); the tape counter stays at 0:00:00.
+- **axe-core 4.10** (WCAG 2.1 A/AA, 2.2 AA and best practice): 0 violations at 390, 768 and 1440 px (49–50 rules passed). The incomplete contrast items are text over the paper speckle that axe cannot sample; those pairs are covered by the measured token table on track A2.
+- **Lint and production build:** pass.
+
+**Remaining notes (not defects)**
+
+- On phones the B7 results table scrolls sideways inside its own labelled, focusable box; the page itself doesn't.
+- The VHS spine on very long titles is decorative (`aria-hidden`) and cut to 18 characters by design; the full title is in the card heading.
+
+**Final approval** given for Design System 03 after QA; committed. All three mood boards and all three design systems are now complete. Next: choose the final visual direction before building `/watchlist`.
+

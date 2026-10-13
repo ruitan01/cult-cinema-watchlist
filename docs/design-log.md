@@ -86,3 +86,67 @@ A running record of the process, design decisions, feedback and revisions for As
   - image dimensions in the data match the files in `public/`
 - **One correction:** AR-26's holding note now says the specimen scan comes from Chambers's *Cyclopaedia*, via the University of Wisconsin Digital Collections.
 - **Next:** Mood Board 02, Somnambulist. The plan is to be proposed and approved before implementation.
+
+## 2026-10-13 · Stage 2 — Mood Board 02: Somnambulist (first pass)
+
+**Approved plan and feedback.** Six rooms with 30 artifacts. Slow fade-ins are allowed if they respect `prefers-reduced-motion` and never hide important content. The three proposed public-domain artworks were approved, subject to checking each file's rights.
+
+**Decisions**
+
+- **Route:** `/mood-boards/somnambulist`. It reuses the shared schema; all components are new, because the visual language shares nothing with Board 1.
+- **How it differs from Accession Record:**
+  - dark instead of paper
+  - rooms instead of drawers
+  - artifacts stand unframed in the dark with museum-style wall labels, sometimes beside the work, instead of plates in a grid
+  - a vertical floor indicator (a top bar on phones) instead of drawer tabs
+  - corridor gradients instead of ruled lines
+  - Instrument Serif and Instrument Sans with no monospace
+  - end credits instead of a register table
+- **Colour:** darkness `#0B0A0C`, lamplight text (about 15:1), ash secondary text (about 7:1), sodium amber for numbers and focus (about 8.7:1), velvet blue as the cool accent. Curtain red is used only for large areas, never for text.
+- **Motion:** a CSS scroll-driven fade-in (`animation-timeline: view()`) that only runs where the browser supports it and the visitor hasn't asked for reduced motion. Content is fully visible by default and never fades below 15% opacity. Nothing flickers or flashes.
+- **Accessibility:**
+  - Grain and vignettes sit only on artifact surfaces, never over text.
+  - The lamp-on card shows both of its states, so nothing depends on hovering.
+  - The "forgetting" sentence also has a plain-text version for screen readers.
+  - Artifact SVGs have labels and artworks have alt text.
+  - There's a skip link and a labelled floor navigation.
+  - Anchor jumps clear the sticky bar on phones.
+
+**Public-domain artworks.** Rights were checked on each file's own Commons page:
+
+| No. | Work | Rights on the file page |
+|---|---|---|
+| SN-28 | Odilon Redon, *The Eye, Like a Strange Balloon, Mounts toward Infinity* (1882), LACMA | PD-LACMA |
+| SN-29 | Francisco Goya, *The sleep of reason produces monsters* (1799; impression printed 1908–12), the Met | CC0 (Met Open Access) |
+| SN-30 | Henry Fuseli, *The Nightmare* (1781), Detroit Institute of Arts | PD-Art |
+
+A Commons copy of *The Nightmare* licensed CC BY 2.5 (a photograph of the painting by a third party) was deliberately not used. The museum scan was chosen instead.
+
+**Revisions from the browser check** (Edge via the DevTools protocol, 1280 × 900 and 375 × 800, full page with reduced motion, plus anchor and motion views)
+
+- The artwork glow made phones scroll sideways by 20 px. The board root now clips horizontal overflow.
+- The first darkness-ladder swatch was invisible against the page. The ladder now has a faint outline.
+- The sentence inside the big "O" crossed the letter's stroke. It is now set on two smaller lines.
+- The perspective floor was too faint. The pattern is lighter and fades out more gently.
+- The film grain was pushed down, leaving an empty band. It now aligns with the bottom of the floor.
+- The entrance is 60% of the screen height on phones (78% on wider screens), so the title isn't stranded in empty space.
+
+## 2026-10-13 · Stage 2 — Mood Board 02 approved, spacing refined
+
+**Feedback:** the Somnambulist direction is approved. It is distinct from Accession Record and the 30 artifacts work. Some vertical gaps between sections felt too large.
+
+**Revisions**
+
+- **Spacing:** the corridor band between rooms is shorter (80–112 px → 48–64 px). Room padding, heading margins and row gaps are reduced. The largest staggered offsets are smaller: the sodium lamp, blue hour, door, wallpaper, empty room and the Goya print. The entrance is 72% of the screen height on wider screens. The desktop page is about 8% shorter (14,303 → 13,121 px), and the staggered, off-centre placement is unchanged.
+- **Focus rings:** the floor links on desktop are inset, so their amber focus ring isn't clipped by the left edge of the screen.
+
+**Verification**
+
+- **Width:** at 390 × 844 the page is exactly 390 px wide with no sideways scrolling. 1280 × 900 is unchanged.
+- **Keyboard:** real Tab presses go to the skip link, the six floor links, back to the index, then the credits links. Each shows the amber outline and glow. Floor links jump to rooms with headings clear of the sticky bar.
+- **Structure:**
+  - one h1, a heading for each room, and the credits heading
+  - `lang="en"` and a page title
+  - all three artworks have alt text and every labelled SVG has a label
+  - no duplicate ids
+- **axe-core 4.10** (WCAG 2.1 A/AA plus best practice, run at 1280 and 390 px; loaded only in the test browser, not added to the project): one rule flagged. Four words at the faded end of SN-09 *Forgetting* fall to 2.84:1. **Accepted as a deliberate exception:** the faded words are decorative and hidden from assistive technology, and the full sentence is provided as plain text. This mirrors AR-03 *Faded ink* on Board 1. Contrast checks over gradients and images that axe couldn't measure automatically were spot-checked in screenshots; all running text sits on the solid `#0B0A0C` background.

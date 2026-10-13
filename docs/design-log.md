@@ -257,3 +257,60 @@ Wellcome Collection copies of the Vesalius plates were deliberately not used, be
 **Approved** after browser review. The colour system, typography, spacing, component states and working catalogue were checked, and the visual language is consistent with Mood Board 01.
 
 **Note for the final watchlist:** the working catalogue uses an internally scrollable film list (a fixed-height `ul` with `overflow-y: auto`). That is acceptable for a compact demo on a documentation page. The final Watchlist should use natural page scrolling rather than a nested scroll area: it is easier on touch devices, keeps keyboard and screen-reader navigation simple, and avoids scroll traps.
+
+## 2026-10-13 · Stage 5 — Design System 02: Somnambulist (first pass, awaiting review)
+
+**Approved plan and decisions.**
+
+- Same seven sections and component coverage as Design System 01, in a substantially different language.
+- **Watchlist toggle:** a lamp-bulb button, not a slider. The visible label is "Watchlist", it uses `aria-pressed`, and its states read without glow or colour.
+- **Reduced-motion preview:** affects this page only, is never persisted, and always yields to the operating system's `prefers-reduced-motion`.
+- **Priorities:** darkness, lamplight, negative space, asymmetry, a sense of moving through rooms; not a dense technical catalogue. Natural page scrolling for the catalogue. Controls must look interactive without animation, hover or glow.
+
+**Decisions**
+
+- **Route and files:** `/design-systems/somnambulist`; tokens in `data/design-systems/somnambulist.ts`, reusing Design System 01's token types.
+- **Page as a building:**
+  - an entrance screen with a single lamp glow
+  - a floor indicator for navigation, vertical on desktop and a compact numbered bar on phones, with floor names available to screen readers
+  - corridor gradients between floors
+  - each component given its own "room": notes on the left, states and the live demo on the right, offset by columns
+  - principles and UI states laid out in staggered, off-centre columns
+- **Colour:** Night `#0B0A0C`, Smoke `#1A1719` and Room `#24201F` for depth. Lamplight text (15.53:1 on Night), Ash for secondary text (7.25:1; the dimmest text allowed), Sodium amber for anything lit and for focus (8.78:1), Velvet blue for links (8.26:1), Ember for errors (7.32:1 on Smoke). A dimmer grey (`#7D766D`) measured 4.40:1 on Night and was rejected: resting cards dim through their surface and glow, never through weaker text.
+- **Type:** Instrument Serif (italic for titles) and Instrument Sans with tabular figures; no monospace. Whisper labels are small capitals at 13 px or larger, never smaller on dark.
+- **Shape and depth:** 999 px pills for controls, 4 px rooms. Depth from tonal steps and glow. Boundaries are real borders, so they survive Windows High Contrast.
+- **States that read without glow or colour:**
+  - **Lamp:** dashed bulb, dashed pill and "off", versus filled bulb with rays, solid amber ring and "on".
+  - **Door:** the leaf swings aside, the inside is lit, and ◆ marks the label.
+  - **Chip:** ✓ and a solid ring.
+  - **Disabled:** a dotted border and ○.
+  - **Focus:** always a real 2 px amber outline; the glow is extra.
+- **Motion:** 200 / 400 / 600 ms tokens; opacity and an 8 px drift only. Transitions sit inside `@media (prefers-reduced-motion: no-preference)` *and* `.ds-sn:not([data-reduce-motion])`. The loading lamp breathes once per 1.6 s, far below the three-flashes-per-second limit. The page switch reads the OS setting with `useSyncExternalStore` and only ever adds the attribute, so it can never override the OS.
+- **Catalogue ("the corridor"):** search with a clear button, four mood doors (single choice, with counts), theme chips (multiple choice, with counts), lamp toggles and "Step inside" disclosures. It uses **natural page scrolling** as a two-column, staggered grid, following the note recorded for Design System 01.
+
+**Revisions during checks**
+
+- The desktop floor indicator was too narrow ("Components" touched its edge). It is now 192 px wide.
+- Each button variant's state row repeated "Every state, held still". Each row is now labelled once by its variant.
+- The secondary button's pressed state was barely distinguishable on a transparent background. It now has a pressed fill.
+
+**Verification**
+
+- **Automated:** axe-core 4.10 (WCAG 2.1 A/AA, 2.2 AA and best practice), 0 violations at 390 and 1280 px.
+- **Keyboard, with real key events:** the page motion switch (attribute set, transitions 0.4 s → 0 s and back); Enter and Space on buttons; Space on the lamp, with "The lamp is on: Mulholland Drive is on your list" announced; Enter and Esc on Step inside, with focus returned; search filters with an announced count; Tab reaches the clear button; a door and a chip filter correctly; the empty state's clear action returns focus to the search field; the loading state is followed by the `role="alert"` error.
+- **Focus:** the live search row shows the amber outline when its field is focused by keyboard.
+- **OS reduced motion emulated:** the attribute is set, the switch is pressed and disabled with an explanation, transitions are 0 s, and the loading-lamp animation is `none`.
+- **Layout:** no sideways page scroll at 390, 640 or 1280 px; every live control is at least 24 px; the catalogue list has `overflow: visible` (natural scrolling).
+- **Screenshots** reviewed at 1280 × 900 and 390 × 844 for the entrance, colour, components and states floors.
+- The floor indicator did not originally track scrolling; the refinement below resolves this.
+
+**Approved** after browser review: the dark atmosphere, asymmetric layout, lamp controls and door-shaped filters work well. Two refinements were requested before committing.
+
+**Refinements**
+
+- **Less vertical whitespace in Principles and Type**, keeping the spacious composition. Both floors now use a "tight" room rhythm: less padding under the content, a smaller heading margin, a smaller stagger on the second principle, and smaller gaps between type rows. Measured by restoring the old spacing as inline styles in the browser (the old utility classes are no longer generated, so swapping them back would have shown nothing):
+  - Principles: 922 → 778 px on desktop (−144), 1,054 → 982 px on mobile (−72)
+  - Type: 1,498 → 1,322 px on desktop (−176), 1,744 → 1,560 px on mobile (−184)
+- **Floor indicator follows the scroll.** A small client component (`_components/floor-nav.tsx`) marks the floor whose section has passed a line 35% down the viewport with `aria-current="location"`. The last floor is marked at the very bottom of the page, and nothing is marked at the entrance. It uses a passive scroll listener throttled to one update per animation frame, never moves focus, and uses the same markup for the vertical desktop indicator and the mobile top bar. The current floor gets a filled amber ring (a shape cue, not just colour).
+  - Verified at 1280 and 390 px by scrolling to each of the seven floors: the matching link was marked every time; none at the top; Access at the bottom.
+  - axe-core still reports 0 violations at both widths, with a floor marked.

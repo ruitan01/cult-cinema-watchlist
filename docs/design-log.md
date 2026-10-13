@@ -150,3 +150,57 @@ A Commons copy of *The Nightmare* licensed CC BY 2.5 (a photograph of the painti
   - all three artworks have alt text and every labelled SVG has a label
   - no duplicate ids
 - **axe-core 4.10** (WCAG 2.1 A/AA plus best practice, run at 1280 and 390 px; loaded only in the test browser, not added to the project): one rule flagged. Four words at the faded end of SN-09 *Forgetting* fall to 2.84:1. **Accepted as a deliberate exception:** the faded words are decorative and hidden from assistive technology, and the full sentence is provided as plain text. This mirrors AR-03 *Faded ink* on Board 1. Contrast checks over gradients and images that axe couldn't measure automatically were spot-checked in screenshots; all running text sits on the solid `#0B0A0C` background.
+
+## 2026-10-13 · Stage 3 — Mood Board 03: Tape Trader
+
+**Approved direction and feedback.** The track structure and all 30 artifacts were approved. It should feel genuinely handmade: a 1993 underground VHS trading catalogue mixed with an early personal homepage. It should also feel more chaotic, tactile and rebellious than the first two boards, while text and navigation stay readable. Keep the anatomical illustrations. Use Permanent Marker sparingly, for handwritten notes only. Small hover and focus reactions are welcome; avoid flashing and glitch animation.
+
+**Decisions**
+
+- **Route:** `/mood-boards/tape-trader`. It reuses the shared schema; all components are new.
+- **Frame:** a homepage "table" with a ridge border on a dark tiled background, inside which sit photocopied collage pages.
+- **Navigation:** a sticky VCR control bar with track buttons, instead of drawer tabs or a floor indicator.
+- **Structure:** Side A (A1 Toner, A2 Ransom, A3 Xerox) and Side B (B4 Contraband, B5 Homepage, B6 Found Footage), with cassette "SIDE A / SIDE B" banners.
+- **Labels:** each artifact gets a label-maker tape caption, followed by a typed note.
+- **Sources:** shown as "liner notes" on a dashed cut-out insert.
+- **Typefaces:**
+  - Anton for headlines
+  - Courier Prime for body text and listings
+  - VT323 for screens and counters
+  - Permanent Marker for annotations only
+  - default Times for the homepage parts, deliberately
+- **Colour:** pink, yellow and cyan only ever sit behind black text. Gore red is used only for large type and graphics. Links are tape-label blue.
+- **Chaos without losing readability:**
+  - clippings tilt by no more than 2° (decorative stickers more)
+  - tape, staples and corner tape hold things down
+  - loose scraps sit beside each track heading ("the good stuff ↓↓", "CONFISCATED?", "NEW!") and take their own space, so they never cover an artifact, label or text; they are hidden on small screens
+- **Motion:** clippings straighten and lift 3 px on hover. Links get a highlighter swipe on hover and focus. All motion is off under `prefers-reduced-motion`. Tracking errors and colour splits are frozen images; nothing flickers.
+- **Footer webring:** real links to the previous board, the index and the next board, instead of fake underlined text.
+
+**Public-domain images.** Rights were checked on each file's own Commons page:
+
+| No. | Image | Rights on the file page |
+|---|---|---|
+| TT-27 | Vesalius, *De humani corporis fabrica*, first muscle plate (1543), University of Amsterdam scan | PD-art |
+| TT-28 | Haeckel, *Ascidiae*, *Kunstformen der Natur* plate 85 (1904), Library of Congress | PD-old-70-1923, LOC-image |
+| TT-29 | H. V. Carter, skull lateral view, *Gray's Anatomy* fig. 188 (1858; 1918 edition) | PD-scan |
+| TT-30 | Kinetoscope parlour photograph (1895), via the US National Park Service | PD-old-1923 |
+
+Wellcome Collection copies of the Vesalius plates were deliberately not used, because they are CC BY 4.0 rather than public domain. TT-27, TT-29 and TT-30 are shown with a CSS photocopy filter (greyscale, raised contrast); the files themselves are only resized and converted. TT-28 stays in colour.
+
+**Revisions from the browser checks**
+
+- **Paper texture:** the first speckle was so dense that the paper read as grey static and the small source lines were nearly invisible. The specks are now sparse.
+- **Halftone TV (TT-12):** the clip-path version didn't read as a television. It is redrawn as an SVG dot pattern.
+- **Marker notes (TT-10):** the "ask me" note overlapped the typing. It is now a separate line.
+- **Envelope (TT-21):** the stamp's perforation mask produced a pink grid and the postmark collided with the stamp. Both are redrawn, and the envelope is smaller.
+- **Scraps:** they first sat absolutely positioned and covered part of a blurb ("CONFISCATED?"). They now sit in the header's normal layout.
+- **Ransom title:** on phones it broke mid-word ("TRAD / ER"). Letters now stay together within each word.
+
+**Verification**
+
+- **Widths:** at 390 and 1280 px, page width equals viewport width, so nothing scrolls sideways.
+- **axe-core 4.10** (WCAG 2.1 A/AA plus best practice, both widths): no violations. The 140-odd "incomplete" contrast items are text over the paper texture, which axe can't sample; that text is `#111` or `#55554f` on near-white paper (about 6:1 or better).
+- **Keyboard:** the order is the skip link, the six track links, back to the index, then the liner-notes links. Focus shows a dashed outline (yellow on the dark VCR bar).
+- **Structure:** one h1 (the ransom title has an accessible name), a heading per track, two labelled navigation regions, alt text on all four images, labels on every graphic, and no duplicate ids.
+- **Testing note:** Edge began opening a hidden sync dialog that blocked screenshots taken through the DevTools protocol. Page screenshots were therefore taken with Edge's own headless screenshot mode, with a full-paint flag, and a 390 px iframe for mobile. Metrics, keyboard and axe checks still ran through DevTools, which works without screenshots. An apparently blank TT-30 turned out to be a capture-timing artifact: the image decodes correctly, and a full-paint capture shows it.

@@ -1,0 +1,427 @@
+/* Accession Record — design system.
+   Tokens and component classes, scoped under .ds-ar. Each interactive class
+   pairs its real pseudo-class with an .is-* modifier so the state matrices can
+   show hover, focus and pressed states statically. */
+
+.ds-ar {
+  --ar-paper: #f3eee4;
+  --ar-card: #e6dfd0;
+  --ar-paper-aged: #e9dfc9;
+  --ar-ink: #1c1b19;
+  --ar-muted: #5e594f;
+  --ar-red: #a3271f;
+  --ar-blue: #22324a;
+  --ar-brass: #9c7a3c;
+  --ar-feint: #9fb3c8;
+  --ar-disabled: #8a8478;
+
+  --ar-space-1: 4px;
+  --ar-space-2: 8px;
+  --ar-space-3: 12px;
+  --ar-space-4: 16px;
+  --ar-space-6: 24px;
+  --ar-space-8: 32px;
+
+  color-scheme: light;
+  background-color: var(--ar-paper);
+  color: var(--ar-ink);
+  font-family: var(--font-ar-text), Georgia, serif;
+  font-size: 1.0625rem;
+  line-height: 1.6;
+}
+
+html:has(.ds-ar) {
+  background-color: #f3eee4;
+  scroll-padding-top: 1rem;
+}
+
+/* The section bar is sticky from 768 px up. */
+@media (min-width: 768px) {
+  html:has(.ds-ar) {
+    scroll-padding-top: 4rem;
+  }
+}
+
+.ds-ar .f-display {
+  font-family: var(--font-ar-display), Georgia, serif;
+  font-weight: 400;
+}
+
+.ds-ar .f-mono {
+  font-family: var(--font-ar-mono), ui-monospace, monospace;
+}
+
+.ds-ar .f-label {
+  font-family: var(--font-ar-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.ds-ar .smallcaps {
+  font-variant-caps: all-small-caps;
+  letter-spacing: 0.06em;
+}
+
+.ds-ar .ruled {
+  background-color: #f7f3ea;
+  background-image:
+    linear-gradient(var(--ar-red), var(--ar-red)),
+    repeating-linear-gradient(to bottom, transparent 0 calc(1.75rem - 1px), var(--ar-feint) calc(1.75rem - 1px) 1.75rem);
+  background-size:
+    100% 1px,
+    100% calc(100% - 3.25rem);
+  background-position:
+    0 2.5rem,
+    0 3.25rem;
+  background-repeat: no-repeat;
+}
+
+/* Focus: one treatment everywhere — a 2px stamp-red outline. */
+.ds-ar :focus-visible,
+.ds-ar .is-focus {
+  outline: 2px solid var(--ar-red);
+  outline-offset: 3px;
+}
+
+.ds-ar-skip:focus {
+  position: fixed;
+  top: 1rem;
+  left: 1rem;
+  z-index: 50;
+}
+
+/* Button ------------------------------------------------------------------ */
+
+.ar-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--ar-space-2);
+  min-height: 44px;
+  padding: 0 var(--ar-space-4);
+  border: 1px solid var(--ar-ink);
+  font-family: var(--font-ar-mono), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.ar-btn--primary {
+  background: var(--ar-ink);
+  color: var(--ar-paper);
+}
+
+.ar-btn--primary:hover,
+.ar-btn--primary.is-hover {
+  background: var(--ar-blue);
+  border-color: var(--ar-blue);
+}
+
+.ar-btn--secondary {
+  background: transparent;
+  color: var(--ar-ink);
+}
+
+.ar-btn--secondary:hover,
+.ar-btn--secondary.is-hover {
+  background: var(--ar-card);
+}
+
+.ar-btn--quiet {
+  border-color: transparent;
+  background: transparent;
+  color: var(--ar-red);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+  padding: 0 var(--ar-space-2);
+}
+
+.ar-btn--quiet:hover,
+.ar-btn--quiet.is-hover {
+  text-decoration-thickness: 2px;
+}
+
+/* Pressed: the button is stamped, not animated — a double inner rule. */
+.ar-btn:active,
+.ar-btn.is-active {
+  box-shadow: inset 0 0 0 2px var(--ar-paper), inset 0 0 0 3px currentColor;
+}
+
+.ar-btn--secondary:active,
+.ar-btn--secondary.is-active {
+  background: var(--ar-paper-aged);
+}
+
+.ar-btn:disabled,
+.ar-btn.is-disabled {
+  background: transparent;
+  border: 1px dashed var(--ar-disabled);
+  color: var(--ar-disabled);
+  box-shadow: none;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+
+/* Link -------------------------------------------------------------------- */
+
+.ar-link {
+  color: var(--ar-red);
+  text-decoration: underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 3px;
+}
+
+.ar-link:hover,
+.ar-link.is-hover {
+  text-decoration-thickness: 2px;
+}
+
+.ar-link:visited,
+.ar-link.is-visited {
+  color: var(--ar-blue);
+}
+
+.ar-link[aria-current="page"],
+.ar-link.is-current {
+  color: var(--ar-ink);
+  text-decoration-style: double;
+}
+
+/* Drawer tab (section navigation and filters) ---------------------------- */
+
+.ar-tab {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ar-space-2);
+  min-height: 36px;
+  padding: 0 var(--ar-space-3);
+  border: 1px solid rgb(28 27 25 / 0.25);
+  border-bottom: 0;
+  border-radius: 6px 6px 0 0;
+  background: var(--ar-card);
+  color: var(--ar-ink);
+  font-family: var(--font-ar-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.ar-tab:hover,
+.ar-tab.is-hover {
+  background: var(--ar-paper-aged);
+  color: var(--ar-red);
+}
+
+.ar-tab[aria-pressed="true"],
+.ar-tab[aria-current="true"],
+.ar-tab.is-selected {
+  background: var(--ar-paper);
+  color: var(--ar-red);
+  border-color: var(--ar-ink);
+  box-shadow: inset 0 3px 0 var(--ar-red);
+}
+
+.ar-tab:disabled,
+.ar-tab.is-disabled {
+  background: transparent;
+  color: var(--ar-disabled);
+  border-style: dashed;
+  cursor: not-allowed;
+}
+
+.ar-tab .count {
+  color: var(--ar-muted);
+}
+
+/* Search field ------------------------------------------------------------ */
+
+.ar-field {
+  display: grid;
+  gap: var(--ar-space-1);
+}
+
+.ar-input {
+  min-height: 44px;
+  width: 100%;
+  padding: 0 var(--ar-space-2);
+  border: 0;
+  border-bottom: 1px solid var(--ar-ink);
+  background: transparent;
+  color: var(--ar-ink);
+  font-family: var(--font-ar-mono), ui-monospace, monospace;
+  font-size: 1rem;
+}
+
+.ar-input::placeholder {
+  color: var(--ar-muted);
+}
+
+.ar-input:hover,
+.ar-input.is-hover {
+  background: rgb(230 223 208 / 0.6);
+}
+
+.ar-input:focus-visible,
+.ar-input.is-focus {
+  outline: 2px solid var(--ar-red);
+  outline-offset: 2px;
+  border-bottom-color: var(--ar-red);
+}
+
+/* Add-to-watchlist toggle: a request slip that gets stamped -------------- */
+
+.ar-request {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ar-space-2);
+  min-height: 44px;
+  padding: 0 var(--ar-space-3);
+  border: 1px dashed var(--ar-ink);
+  background: #f7f3ea;
+  color: var(--ar-ink);
+  font-family: var(--font-ar-mono), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.ar-request:hover,
+.ar-request.is-hover {
+  background: var(--ar-card);
+}
+
+.ar-request:active,
+.ar-request.is-active {
+  background: var(--ar-paper-aged);
+}
+
+.ar-request[aria-pressed="true"],
+.ar-request.is-on {
+  border: 2px solid var(--ar-blue);
+  color: var(--ar-blue);
+  background: var(--ar-paper);
+  font-weight: 500;
+}
+
+/* Watched mark ------------------------------------------------------------ */
+
+.ar-stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ar-space-1);
+  padding: 0 var(--ar-space-2);
+  border: 2px solid var(--ar-red);
+  color: var(--ar-red);
+  font-family: var(--font-ar-mono), ui-monospace, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  rotate: -4deg;
+}
+
+/* Film card --------------------------------------------------------------- */
+
+.ar-card {
+  display: grid;
+  gap: var(--ar-space-4);
+  padding: var(--ar-space-4);
+  border-top: 1px solid var(--ar-ink);
+  border-bottom: 1px solid rgb(28 27 25 / 0.2);
+  background: var(--ar-paper);
+}
+
+@media (min-width: 640px) {
+  .ar-card {
+    grid-template-columns: 9.5rem 1fr;
+    padding: var(--ar-space-6);
+  }
+}
+
+.ar-card:hover,
+.ar-card.is-hover,
+.ar-card:focus-within,
+.ar-card.is-focus-within {
+  background: #f7f3ea;
+  border-top-color: var(--ar-red);
+}
+
+.ar-card--compact {
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  padding: var(--ar-space-3) var(--ar-space-2);
+}
+
+@media (min-width: 640px) {
+  .ar-card--compact {
+    grid-template-columns: 7.5rem 1fr auto;
+    padding: var(--ar-space-3) var(--ar-space-4);
+  }
+}
+
+.ar-meta {
+  display: grid;
+  gap: var(--ar-space-1);
+  align-content: start;
+  font-family: var(--font-ar-mono), ui-monospace, monospace;
+  font-size: 0.8125rem;
+  line-height: 1.4;
+}
+
+.ar-meta dt {
+  color: var(--ar-muted);
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* Disclosure -------------------------------------------------------------- */
+
+.ar-disclosure {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--ar-space-2);
+  min-height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  color: var(--ar-red);
+  font-family: var(--font-ar-text), Georgia, serif;
+  font-style: italic;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+.ar-disclosure .marker {
+  display: inline-block; /* keeps the underline off the marker */
+  font-style: normal;
+  font-family: var(--font-ar-mono), ui-monospace, monospace;
+}
+
+.ar-disclosure:hover,
+.ar-disclosure.is-hover {
+  text-decoration-thickness: 2px;
+}
+
+/* Feedback note ----------------------------------------------------------- */
+
+.ar-note {
+  border-left: 3px solid var(--ar-blue);
+  padding: var(--ar-space-2) var(--ar-space-3);
+  background: #f7f3ea;
+  font-size: 0.9375rem;
+}
+
+.ar-note--error {
+  border-left-color: var(--ar-red);
+}
+
+.ar-skeleton {
+  height: 0.75rem;
+  background: repeating-linear-gradient(90deg, rgb(28 27 25 / 0.14) 0 6px, transparent 6px 9px);
+}

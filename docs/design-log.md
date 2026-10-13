@@ -222,3 +222,38 @@ Wellcome Collection copies of the Vesalius plates were deliberately not used, be
 - Lint and production build pass.
 
 **Approved:** Mood Board 03, Tape Trader. All three mood boards are now complete. Next: plan the three design-system pages.
+
+## 2026-10-13 · Stage 4 — Design System 01: Accession Record (first pass, awaiting review)
+
+**Approved plan.** All three systems share one structure: principles, colour, typography, space and layout, components, UI states and accessibility. The shared component checklist covers button, link, section navigation, film card, filter tabs, search field, watchlist toggle, watched mark, disclosure and feedback. Small, working, keyboard-accessible demos are allowed on design-system pages. The film data stays minimal for now.
+
+**Shared foundations**
+
+- `data/films.ts`: 16 films with only the fields the demos need (title, year, director, running time, mood, themes, one original line).
+- `lib/contrast.ts`: WCAG relative luminance and contrast ratio. Every ratio on the design-system pages is computed from token values; ratios are rounded down, so a pair is never shown as passing when it doesn't.
+- `data/design-systems/accession-record.ts`: the system's tokens (colours, contrast pairs, type scale, spacing, grid, principles). This is the source of truth the watchlist would import.
+
+**Decisions**
+
+- **Route:** `/design-systems/accession-record`, consistent with Mood Board 01 (same palette, typefaces, ruled lines, drawer tabs and § numbering).
+- **Component classes and states:** components are CSS classes, each pairing its real pseudo-class with an `.is-*` modifier. The static state rows therefore render exactly the CSS the live controls use. The static rows are `inert`, so Tab skips them and screen readers don't hear them as real controls.
+- **Interactive elements:**
+  - The watchlist toggle is a button with `aria-pressed`. Its visible label stays "Watchlist" (plus a hidden film name) and only its mark changes, ☐ to ☒, which avoids a label that contradicts its state.
+  - The programme note is a disclosure (`aria-expanded`, `aria-controls`). Esc closes it and returns focus.
+  - Filters are drawer tabs that toggle with `aria-pressed` and show result counts. A theme with no results is disabled, unless it's the one currently selected.
+- **Live demos:** buttons, a single film card, a working catalogue (search, theme tabs, compact cards, toggles, notes, announced counts and an empty state with "Clear search and filters"), and a retrieval demo (loading skeleton with `aria-busy`, then a record or a `role="alert"` error).
+- **Motion:** none. Pressing stamps a double inner rule instead of animating.
+
+**Revisions from the first checks**
+
+- At 390 px the seven section tabs wrapped into a 165 px sticky block. The bar is now sticky only from 768 px up, with a matching anchor offset.
+- The header and footer text links were 19–20 px tall. They are now padded to at least 24 px.
+- axe flagged the brass "Aa" sample: text in a colour the system says is decorative only. Rows for non-text pairs now show a bar sample instead of letters.
+- axe flagged two wide tables that scroll sideways on phones but couldn't be reached by keyboard. They are now focusable, labelled regions.
+- The disclosure marker (▸) picked up the link underline. It no longer does.
+
+**Verification:** axe-core 0 violations at 390 and 1280 px. Real-key tests via DevTools: Enter and Space on buttons, Space on the toggle with an announced message, Enter/Esc on the note with focus returned, typing filters the catalogue with announced counts, the empty state appears, and loading then error appears. Every live control is at least 24 px. No sideways page scroll at 390, 640 or 1280 px. Results are recorded in §7 of the page.
+
+**Approved** after browser review. The colour system, typography, spacing, component states and working catalogue were checked, and the visual language is consistent with Mood Board 01.
+
+**Note for the final watchlist:** the working catalogue uses an internally scrollable film list (a fixed-height `ul` with `overflow-y: auto`). That is acceptable for a compact demo on a documentation page. The final Watchlist should use natural page scrolling rather than a nested scroll area: it is easier on touch devices, keeps keyboard and screen-reader navigation simple, and avoids scroll traps.
